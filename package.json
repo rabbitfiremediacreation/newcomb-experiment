@@ -1,0 +1,12 @@
+{
+  "name": "newcomb-deck",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "npx --yes hyperframes@0.8.93 present .",
+    "check": "npx --yes hyperframes@0.8.93 check",
+    "render": "npx --yes hyperframes@0.8.93 render",
+    "publish": "npx --yes hyperframes@0.8.93 publish",
+    "present": "npx --yes hyperframes@0.8.93 present ."
+  }
+}

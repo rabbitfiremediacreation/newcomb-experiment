@@ -1,0 +1,1005 @@
+<!doctype html>
+<html lang="de">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1920, height=1080" />
+    <title>Das Newcomb-Experiment</title>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        width: 1920px;
+        height: 1080px;
+        overflow: hidden;
+        background: #0b1020;
+      }
+      :root {
+        --bg: #0b1020;
+        --panel: #151c33;
+        --line: #2a3557;
+        --text: #f4f6fb;
+        --muted: #aab4d0;
+        --gold: #ffc94a;
+        --blue: #5aa9ff;
+        --green: #5fe0a0;
+        --red: #ff7385;
+      }
+      .scene {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 1920px;
+        height: 1080px;
+        overflow: hidden;
+        background: radial-gradient(1200px 700px at 80% 0%, #18244a 0%, var(--bg) 70%);
+        font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+        color: var(--text);
+      }
+      .frame {
+        position: absolute;
+        inset: 0;
+        padding: 80px 120px;
+      }
+      .kicker {
+        font-size: 40px;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: var(--gold);
+        font-weight: 700;
+        margin-bottom: 20px;
+      }
+      h1,
+      h2 {
+        font-size: 66px;
+        line-height: 1.12;
+        font-weight: 800;
+        letter-spacing: -0.02em;
+        max-width: 1640px;
+      }
+      h1 {
+        font-size: 92px;
+      }
+      .sub {
+        font-size: 48px;
+        color: var(--muted);
+        margin-top: 36px;
+        max-width: 1500px;
+        line-height: 1.3;
+      }
+      .mono {
+        font-family: ui-monospace, "SF Mono", Menlo, monospace;
+      }
+      .gold {
+        color: var(--gold);
+      }
+      .blue {
+        color: var(--blue);
+      }
+      .green {
+        color: var(--green);
+      }
+      .red {
+        color: var(--red);
+      }
+      .abs {
+        position: absolute;
+      }
+
+      /* Slide 2: Boxen */
+      .box {
+        position: absolute;
+        top: 290px;
+        width: 520px;
+        text-align: center;
+      }
+      .box svg {
+        width: 520px;
+        height: 336px;
+        display: block;
+      }
+      .box .name {
+        font-size: 56px;
+        font-weight: 800;
+        margin-top: 10px;
+      }
+      .box .cap {
+        font-size: 40px;
+        color: var(--muted);
+        margin-top: 6px;
+      }
+      .choice {
+        position: absolute;
+        top: 800px;
+        width: 800px;
+        height: 190px;
+        padding: 26px 40px;
+        border: 3px solid var(--blue);
+        border-radius: 24px;
+        background: rgba(90, 169, 255, 0.1);
+      }
+      .choice .t {
+        font-size: 60px;
+        font-weight: 800;
+      }
+      .choice .d {
+        font-size: 44px;
+        color: var(--text);
+        margin-top: 8px;
+      }
+      .pa-row {
+        position: absolute;
+        left: 120px;
+        width: 1680px;
+        height: 190px;
+      }
+      .pa-l,
+      .pa-r {
+        position: absolute;
+        top: 0;
+        height: 190px;
+        padding: 26px 40px;
+        border-radius: 24px;
+        background: var(--panel);
+        border: 3px solid var(--line);
+      }
+      .pa-l {
+        left: 0;
+        width: 700px;
+      }
+      .pa-r {
+        left: 880px;
+        width: 800px;
+      }
+      .pa-arrow {
+        position: absolute;
+        left: 740px;
+        top: 30px;
+        font-size: 100px;
+        font-weight: 800;
+        color: var(--gold);
+      }
+      .pa-small {
+        font-size: 40px;
+        color: var(--muted);
+      }
+      .pa-big {
+        font-size: 64px;
+        font-weight: 800;
+        margin-top: 4px;
+      }
+      .rule {
+        position: absolute;
+        left: 120px;
+        right: 120px;
+        top: 880px;
+        padding: 28px 40px;
+        border: 3px solid var(--blue);
+        border-radius: 24px;
+        background: rgba(90, 169, 255, 0.1);
+        font-size: 48px;
+        line-height: 1.25;
+        text-align: center;
+      }
+
+      /* Slide 3: Ablauf */
+      .step {
+        position: absolute;
+        left: 120px;
+        width: 1680px;
+        height: 150px;
+        display: flex;
+        align-items: center;
+        gap: 40px;
+        padding: 0 40px;
+        background: var(--panel);
+        border: 2px solid var(--line);
+        border-radius: 28px;
+      }
+      .step .num {
+        flex: none;
+        width: 92px;
+        height: 92px;
+        border-radius: 50%;
+        background: var(--gold);
+        color: #1a1400;
+        font-size: 56px;
+        font-weight: 800;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .step .t {
+        font-size: 50px;
+        font-weight: 800;
+      }
+      .step .d {
+        font-size: 40px;
+        color: var(--muted);
+        margin-top: 4px;
+      }
+
+      /* Slide 4: Matrix */
+      .colh {
+        position: absolute;
+        top: 300px;
+        width: 560px;
+        text-align: center;
+        font-size: 46px;
+        font-weight: 800;
+        color: var(--blue);
+      }
+      .rowh {
+        position: absolute;
+        left: 120px;
+        width: 500px;
+        height: 220px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        font-size: 46px;
+        font-weight: 800;
+      }
+      .rowh small {
+        font-size: 40px;
+        font-weight: 500;
+        color: var(--muted);
+        margin-top: 6px;
+      }
+      .cell {
+        position: absolute;
+        width: 560px;
+        height: 220px;
+        border-radius: 28px;
+        background: var(--panel);
+        border: 3px solid var(--line);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+      }
+      .cell .v {
+        font-size: 72px;
+        font-weight: 800;
+      }
+      .cell .b {
+        font-size: 40px;
+        font-weight: 700;
+        margin-top: 8px;
+      }
+      .cell.hit {
+        border-color: var(--green);
+      }
+      .cell.miss {
+        border-color: var(--red);
+      }
+      .legend {
+        position: absolute;
+        left: 120px;
+        right: 120px;
+        font-size: 40px;
+        line-height: 1.25;
+      }
+      .legend .muted {
+        color: var(--muted);
+      }
+      .gobtn {
+        position: absolute;
+        padding: 22px 52px;
+        border: none;
+        border-radius: 999px;
+        background: var(--gold);
+        color: #1a1400;
+        font-family: inherit;
+        font-size: 52px;
+        font-weight: 800;
+        cursor: pointer;
+        box-shadow: 0 8px 30px rgba(255, 201, 74, 0.35);
+      }
+      .tile {
+        position: absolute;
+        top: 410px;
+        width: 150px;
+        height: 130px;
+        border-radius: 22px;
+        background: var(--panel);
+        border: 3px solid var(--line);
+      }
+      .tile .q,
+      .tile .v {
+        position: absolute;
+        inset: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 800;
+      }
+      .tile .q {
+        font-size: 64px;
+        color: var(--muted);
+      }
+      .tile .v {
+        font-size: 44px;
+      }
+      .tile .v.hit {
+        color: var(--green);
+      }
+      .tile .v.miss {
+        color: var(--red);
+      }
+      .sumline {
+        position: absolute;
+        left: 120px;
+        right: 120px;
+        font-size: 44px;
+        font-weight: 700;
+      }
+      .hint {
+        position: absolute;
+        left: 120px;
+        width: 1200px;
+        height: 90px;
+        border: 3px dashed var(--gold);
+        border-radius: 22px;
+        font-size: 40px;
+        color: var(--gold);
+        font-weight: 700;
+      }
+
+      /* Slide 5: Erwartungswerte */
+      .formula {
+        position: absolute;
+        left: 120px;
+        font-size: 66px;
+        font-weight: 700;
+      }
+      .trow {
+        position: absolute;
+        left: 120px;
+        width: 1680px;
+        height: 80px;
+        display: flex;
+        align-items: center;
+        font-size: 50px;
+        font-weight: 700;
+        border-bottom: 2px solid var(--line);
+      }
+      .trow.head {
+        color: var(--blue);
+        font-size: 46px;
+      }
+      .trow span {
+        flex: 1;
+        text-align: center;
+      }
+
+      /* Slide 6 + Branches: Karten */
+      .card {
+        position: absolute;
+        left: 120px;
+        width: 1680px;
+        padding: 26px 44px;
+        background: var(--panel);
+        border: 2px solid var(--line);
+        border-radius: 28px;
+      }
+      .card .t {
+        font-size: 50px;
+        font-weight: 800;
+      }
+      .card .d {
+        font-size: 42px;
+        color: var(--muted);
+        margin-top: 8px;
+        line-height: 1.3;
+      }
+    </style>
+  </head>
+  <body>
+    <script type="application/hyperframes-slideshow+json">
+      {
+        "slides": [
+          {
+            "sceneId": "hook",
+            "startTime": 0,
+            "endTime": 6,
+            "notes": "Einstieg: Wir sind Kandidaten in einer Spielshow. Die Show versucht, uns zu durchschauen, denn das macht das Gewinnen schwer. Genau darum geht es beim Newcomb-Problem."
+          },
+          {
+            "sceneId": "boxen",
+            "startTime": 6,
+            "endTime": 20,
+            "notes": "Klick 1: Box A ist die Mystery-Box, ihr Inhalt ist unbekannt. Klick 2: Box B ist offen und enthält immer 1.000 Euro. Klick 3: Deine zwei Wahlmöglichkeiten: 1-Box heißt nur Box A, 2-Box heißt Box A und Box B.",
+            "fragments": [8, 12, 16]
+          },
+          {
+            "sceneId": "praediktor",
+            "startTime": 128,
+            "endTime": 142,
+            "notes": "Klick 1: Tippt die Show 1-Box, legt sie 1.000.000 Euro in Box A. Klick 2: Tippt sie 2-Box, bleibt Box A leer. Klick 3: Die Show kann sich irren. p ist ihre Trefferquote.",
+            "fragments": [130, 134, 138]
+          },
+          {
+            "sceneId": "ablauf",
+            "startTime": 20,
+            "endTime": 36,
+            "notes": "Vier Schritte, jeder Klick zeigt den nächsten. Wichtig: Die Vorhersage kommt VOR deiner Wahl und ändert sich danach nicht mehr.",
+            "fragments": [22, 26, 30, 34]
+          },
+          {
+            "sceneId": "matrix",
+            "startTime": 36,
+            "endTime": 50,
+            "notes": "Erst Zeile 1 (Prädiktor sagte 1-Box), dann Zeile 2, dann Treffer (grün, Wahrscheinlichkeit p) und Fehler (rot, 1 minus p). Hotspot unten: Dominanzargument.",
+            "fragments": [38, 42, 46],
+            "hotspots": [
+              {
+                "id": "h-dominanz",
+                "label": "Warum nicht einfach beide Boxen nehmen?",
+                "target": "dominanz",
+                "region": { "x": 6, "y": 93, "w": 40, "h": 6 }
+              }
+            ]
+          },
+          {
+            "sceneId": "beispiel",
+            "startTime": 108,
+            "endTime": 128,
+            "notes": "Beispiel mit p = 0,7 und 10 Spielen, immer 1-Box. Klick 1: 10 Spiele. Klick 2: 7 Treffer. Klick 3: 3 Fehler. Klick 4: Durchschnitt 700.000 Euro. Klick 5: dieselben 10 Spiele mit 2-Box ergeben 301.000 Euro.",
+            "fragments": [110, 114, 118, 122, 126]
+          },
+          {
+            "sceneId": "erwartung",
+            "startTime": 50,
+            "endTime": 78,
+            "notes": "Die beiden Formeln, danach die Werte für p = 0,5 / 0,6 / 0,7 und zum Schluss 0,4 und 0,3: Bei kleinem p ist 2-Box besser. Hotspot unten: ab welchem p lohnt sich 1-Box?",
+            "fragments": [52, 56, 60, 64, 68, 72, 76],
+            "hotspots": [
+              {
+                "id": "h-grenze",
+                "label": "Ab welchem p lohnt sich 1-Box?",
+                "target": "grenze",
+                "region": { "x": 6, "y": 92, "w": 40, "h": 6 }
+              }
+            ]
+          },
+          {
+            "sceneId": "live",
+            "startTime": 142,
+            "endTime": 156,
+            "notes": "Live-Experiment: Spielzahl und p einstellen, Hebel ziehen oder automatisch spielen. Das Diagramm zeigt, wie sich der Durchschnitt der Theorie annähert."
+          }
+        ],
+        "slideSequences": [
+          {
+            "id": "dominanz",
+            "label": "Das Dominanzargument",
+            "slides": [
+              {
+                "sceneId": "dominanz-1",
+            "startTime": 84,
+            "endTime": 96,
+                "notes": "Bei festem Boxinhalt bringt 2-Box immer 1.000 Euro mehr. Der Erwartungswert sagt aber bei großem p das Gegenteil - das ist das Paradox."
+              }
+            ]
+          },
+          {
+            "id": "grenze",
+            "label": "Break-even der Trefferquote",
+            "slides": [
+              {
+                "sceneId": "grenze-1",
+            "startTime": 96,
+            "endTime": 108,
+                "notes": "E(1-Box) gleich E(2-Box) setzen und nach p auflösen. Ergebnis: p größer als 0,5005."
+              }
+            ]
+          }
+        ]
+      }
+    </script>
+
+    <div
+      id="root"
+      data-composition-id="root"
+      data-start="0"
+      data-duration="108"
+      data-width="1920"
+      data-height="1080"
+      style="position: absolute; left: 0; top: 0; width: 1920px; height: 1080px"
+    >
+    <!-- 1 · Einstieg -->
+    <div
+      class="scene clip"
+      data-composition-id="hook"
+      data-start="0"
+      data-duration="6"
+      data-label="Einstieg"
+      data-width="1920"
+      data-height="1080"
+    >
+      <section class="frame clip" data-start="0" data-duration="6" data-track-index="1">
+        <div class="kicker abs" id="hook-k" style="left: 120px; top: 250px">
+          Die Spielshow: das Newcomb-Experiment
+        </div>
+        <h1 class="abs" id="hook-h" style="left: 120px; top: 330px; width: 1600px">
+          Kann dich die Spielshow durchschauen, bevor du wählst?
+        </h1>
+        <p class="sub abs" id="hook-s" style="left: 120px; top: 700px">
+          Zwei Boxen, ein Prädiktor, der dich lesen will, und der Erwartungswert als Schiedsrichter.
+        </p>
+        <button class="gobtn" id="hook-go" type="button" style="left: 120px; top: 900px">
+          Direkt zum Experiment →
+        </button>
+      </section>
+    </div>
+
+    <!-- 2 · Aufbau: die Boxen -->
+    <div
+      class="scene clip"
+      data-composition-id="boxen"
+      data-start="6"
+      data-duration="14"
+      data-label="Die Boxen"
+      data-width="1920"
+      data-height="1080"
+    >
+      <section class="frame clip" data-start="6" data-duration="14" data-track-index="1">
+        <div class="kicker" id="bx-k">Aufbau</div>
+        <h2 id="bx-h">Du darfst wählen: nur Box A oder beide Boxen.</h2>
+
+        <div class="box" id="bx-a" style="left: 200px">
+          <svg viewBox="0 0 620 400">
+            <rect x="80" y="70" width="460" height="60" rx="14" fill="#2c3766" stroke="#5aa9ff" stroke-width="5" />
+            <rect x="80" y="130" width="460" height="230" rx="16" fill="#1c2547" stroke="#5aa9ff" stroke-width="5" />
+            <text x="310" y="285" text-anchor="middle" font-size="150" font-weight="800" fill="#5aa9ff" font-family="system-ui, sans-serif">?</text>
+          </svg>
+          <div class="name">Box A</div>
+          <div class="cap">die Mystery-Box</div>
+        </div>
+
+        <div class="box" id="bx-b" style="left: 1200px">
+          <svg viewBox="0 0 620 400">
+            <polygon points="120,120 500,120 540,60 160,20" fill="#2c3766" stroke="#ffc94a" stroke-width="5" />
+            <rect x="80" y="130" width="460" height="230" rx="16" fill="#1c2547" stroke="#ffc94a" stroke-width="5" />
+            <text x="310" y="270" text-anchor="middle" font-size="84" font-weight="800" fill="#ffc94a" font-family="system-ui, sans-serif">1.000 €</text>
+          </svg>
+          <div class="name">Box B</div>
+          <div class="cap">offen, enthält immer 1.000 €</div>
+        </div>
+
+        <div class="choice" id="bx-c1" style="left: 120px">
+          <div class="t gold">1-Box</div>
+          <div class="d">Du nimmst nur Box A.</div>
+        </div>
+        <div class="choice" id="bx-c2" style="left: 1000px">
+          <div class="t gold">2-Box</div>
+          <div class="d">Du nimmst Box A und Box B.</div>
+        </div>
+      </section>
+    </div>
+
+    <!-- 2b · Der Prädiktor -->
+    <div
+      class="scene clip"
+      data-composition-id="praediktor"
+      data-start="128"
+      data-duration="14"
+      data-label="Der Prädiktor"
+      data-width="1920"
+      data-height="1080"
+    >
+      <section class="frame clip" data-start="128" data-duration="14" data-track-index="1">
+        <div class="kicker" id="pa-k">Der Prädiktor der Show</div>
+        <h2 id="pa-h">Bevor du wählst, legt die Show den Inhalt von Box A fest.</h2>
+
+        <div class="pa-row" id="pa-1" style="top: 340px">
+          <div class="pa-l"><div class="pa-small">Die Show tippt</div><div class="pa-big blue">1-Box</div></div>
+          <div class="pa-arrow">→</div>
+          <div class="pa-r" style="border-color: #5fe0a0"><div class="pa-small">Dann legt sie in Box A</div><div class="pa-big gold">1.000.000 €</div></div>
+        </div>
+        <div class="pa-row" id="pa-2" style="top: 570px">
+          <div class="pa-l"><div class="pa-small">Die Show tippt</div><div class="pa-big blue">2-Box</div></div>
+          <div class="pa-arrow">→</div>
+          <div class="pa-r" style="border-color: #ff7385"><div class="pa-small">Dann bleibt Box A</div><div class="pa-big red">leer (0 €)</div></div>
+        </div>
+
+        <div class="card" id="pa-n" style="top: 800px; border-color: #ffc94a; padding: 22px 44px">
+          <div class="d" style="font-size: 42px">Die Show irrt sich manchmal. p ist ihre Trefferquote: Bei p = 0,7 tippt sie von 100 Kandidaten 70 richtig.</div>
+        </div>
+      </section>
+    </div>
+
+    <!-- 3 · Ablauf -->
+    <div
+      class="scene clip"
+      data-composition-id="ablauf"
+      data-start="20"
+      data-duration="16"
+      data-label="Ablauf"
+      data-width="1920"
+      data-height="1080"
+    >
+      <section class="frame clip" data-start="20" data-duration="16" data-track-index="1">
+        <div class="kicker" id="ab-k">Ablauf</div>
+        <h2 id="ab-h">Der Prädiktor legt sich fest, bevor du wählst.</h2>
+
+        <div class="step" id="ab-1" style="top: 290px">
+          <div class="num">1</div>
+          <div><div class="t">Vorhersage</div><div class="d">Der Prädiktor tippt auf 1-Box oder 2-Box.</div></div>
+        </div>
+        <div class="step" id="ab-2" style="top: 470px">
+          <div class="num">2</div>
+          <div><div class="t">Befüllen</div><div class="d">Tippt er 1-Box, kommen 1.000.000 € in Box A.</div></div>
+        </div>
+        <div class="step" id="ab-3" style="top: 650px">
+          <div class="num">3</div>
+          <div><div class="t">Deine Wahl</div><div class="d">Du nimmst nur Box A oder beide Boxen.</div></div>
+        </div>
+        <div class="step" id="ab-4" style="top: 830px">
+          <div class="num">4</div>
+          <div><div class="t">Auszahlung</div><div class="d">Du erhältst den Inhalt der gewählten Boxen.</div></div>
+        </div>
+      </section>
+    </div>
+
+    <!-- 4 · Auszahlungsmatrix -->
+    <div
+      class="scene clip"
+      data-composition-id="matrix"
+      data-start="36"
+      data-duration="14"
+      data-label="Auszahlung"
+      data-width="1920"
+      data-height="1080"
+    >
+      <section class="frame clip" data-start="36" data-duration="14" data-track-index="1">
+        <div class="kicker" id="mx-k">Auszahlung</div>
+        <h2 id="mx-h">Dein Gewinn hängt von deiner Wahl und der Vorhersage ab.</h2>
+
+        <div class="colh" id="mx-c1" style="left: 660px">Du wählst 1-Box</div>
+        <div class="colh" id="mx-c2" style="left: 1240px">Du wählst 2-Box</div>
+
+        <div class="rowh" id="mx-r1" style="top: 380px">Prädiktor tippte 1-Box<small>Box A ist gefüllt</small></div>
+        <div class="cell" id="mx-11" style="left: 660px; top: 380px"><div class="v gold">1.000.000 €</div><div class="b green" id="mx-11b">Vorhersage richtig (p)</div></div>
+        <div class="cell" id="mx-12" style="left: 1240px; top: 380px"><div class="v gold">1.001.000 €</div><div class="b red" id="mx-12b">Vorhersage falsch (1 − p)</div></div>
+
+        <div class="rowh" id="mx-r2" style="top: 620px">Prädiktor tippte 2-Box<small>Box A ist leer</small></div>
+        <div class="cell" id="mx-21" style="left: 660px; top: 620px"><div class="v gold">0 €</div><div class="b red" id="mx-21b">Vorhersage falsch (1 − p)</div></div>
+        <div class="cell" id="mx-22" style="left: 1240px; top: 620px"><div class="v gold">1.000 €</div><div class="b green" id="mx-22b">Vorhersage richtig (p)</div></div>
+
+        <div class="legend" id="mx-leg" style="top: 860px">
+          <div><span class="green">Treffer:</span> Der Prädiktor hat richtig getippt (Wahrscheinlichkeit p).</div>
+          <div><span class="red">Fehler:</span> Er hat sich geirrt (Wahrscheinlichkeit 1 − p).</div>
+          <div class="muted">Beispiel p = 0,7: 70 von 100 Vorhersagen stimmen, 30 nicht.</div>
+        </div>
+      </section>
+    </div>
+
+    <!-- 4b · Beispiel p = 0,7 -->
+    <div
+      class="scene clip"
+      data-composition-id="beispiel"
+      data-start="108"
+      data-duration="20"
+      data-label="Beispiel p = 0,7"
+      data-width="1920"
+      data-height="1080"
+    >
+      <section class="frame clip" data-start="108" data-duration="20" data-track-index="1">
+        <div class="kicker" id="bs-k">Beispiel mit p = 0,7</div>
+        <h2 id="bs-h">Bei p = 0,7 liegt der Prädiktor in 7 von 10 Spielen richtig.</h2>
+        <div class="sub abs" id="bs-s" style="left: 120px; top: 300px; margin-top: 0; font-size: 44px">
+          Du wählst in allen 10 Spielen nur Box A (1-Box).
+        </div>
+
+        <div class="tile" id="bs-t1" style="left: 120px"><div class="q">?</div><div class="v hit">1 Mio.</div></div>
+        <div class="tile" id="bs-t2" style="left: 290px"><div class="q">?</div><div class="v hit">1 Mio.</div></div>
+        <div class="tile" id="bs-t3" style="left: 460px"><div class="q">?</div><div class="v hit">1 Mio.</div></div>
+        <div class="tile" id="bs-t4" style="left: 630px"><div class="q">?</div><div class="v hit">1 Mio.</div></div>
+        <div class="tile" id="bs-t5" style="left: 800px"><div class="q">?</div><div class="v hit">1 Mio.</div></div>
+        <div class="tile" id="bs-t6" style="left: 970px"><div class="q">?</div><div class="v hit">1 Mio.</div></div>
+        <div class="tile" id="bs-t7" style="left: 1140px"><div class="q">?</div><div class="v hit">1 Mio.</div></div>
+        <div class="tile" id="bs-t8" style="left: 1310px"><div class="q">?</div><div class="v miss">0 €</div></div>
+        <div class="tile" id="bs-t9" style="left: 1480px"><div class="q">?</div><div class="v miss">0 €</div></div>
+        <div class="tile" id="bs-t10" style="left: 1650px"><div class="q">?</div><div class="v miss">0 €</div></div>
+        <div class="abs green" id="bs-l1" style="left: 120px; top: 560px; font-size: 44px; font-weight: 800">7 Treffer: Box A gefüllt</div>
+        <div class="abs red" id="bs-l2" style="left: 1310px; top: 560px; font-size: 44px; font-weight: 800">3 Fehler: Box A leer</div>
+
+        <div class="sumline mono" id="bs-sum1" style="top: 690px">
+          7 × 1.000.000 € + 3 × 0 € = 7.000.000 € <span class="gold">→ Ø 700.000 €</span>
+        </div>
+        <div class="sumline mono" id="bs-sum2" style="top: 790px; font-size: 40px">
+          <span class="muted" style="color: var(--muted)">2-Box, gleiche Spiele:</span><br />
+          7 × 1.000 € + 3 × 1.001.000 € = 3.010.000 € <span class="gold">→ Ø 301.000 €</span>
+        </div>
+      </section>
+    </div>
+
+    <!-- 5 · Erwartungswerte -->
+    <div
+      class="scene clip"
+      data-composition-id="erwartung"
+      data-start="50"
+      data-duration="28"
+      data-label="Erwartungswerte"
+      data-width="1920"
+      data-height="1080"
+    >
+      <section class="frame clip" data-start="50" data-duration="28" data-track-index="1">
+        <div class="kicker" id="ew-k">Erwartungswert</div>
+        <h2 id="ew-h">Der Erwartungswert vergleicht beide Strategien.</h2>
+
+        <div class="formula mono" id="ew-f1" style="top: 300px">
+          E(1-Box) = <span class="gold">1.000.000</span> · p + 0 · (1 − p)
+        </div>
+        <div class="formula mono" id="ew-f2" style="top: 400px">
+          E(2-Box) = <span class="gold">1.000</span> + <span class="gold">1.000.000</span> · (1 − p)
+        </div>
+
+        <div class="trow head" id="ew-th" style="top: 500px"><span>p</span><span>E(1-Box)</span><span>E(2-Box)</span></div>
+        <div class="trow" id="ew-t5" style="top: 580px"><span>0,3</span><span>300.000 €</span><span class="green">701.000 €</span></div>
+        <div class="trow" id="ew-t4" style="top: 660px"><span>0,4</span><span>400.000 €</span><span class="green">601.000 €</span></div>
+        <div class="trow" id="ew-t1" style="top: 740px"><span>0,5</span><span>500.000 €</span><span class="green">501.000 €</span></div>
+        <div class="trow" id="ew-t2" style="top: 820px"><span>0,6</span><span class="green">600.000 €</span><span>401.000 €</span></div>
+        <div class="trow" id="ew-t3" style="top: 900px"><span>0,7</span><span class="green">700.000 €</span><span>301.000 €</span></div>
+      </section>
+    </div>
+
+    <!-- Abzweig: Dominanzargument -->
+    <div
+      class="scene clip"
+      data-composition-id="dominanz-1"
+      data-start="84"
+      data-duration="12"
+      data-label="Dominanzargument"
+      data-width="1920"
+      data-height="1080"
+    >
+      <section class="frame clip" data-start="84" data-duration="12" data-track-index="1">
+        <div class="kicker" id="dm-k">Abzweig: Dominanz</div>
+        <h2 id="dm-h">Bei festem Boxinhalt bringt 2-Box immer 1.000 € mehr.</h2>
+
+        <div class="card" id="dm-1" style="top: 380px">
+          <div class="t">Box A gefüllt</div>
+          <div class="d">1-Box: 1.000.000 € | 2-Box: <span class="green">1.001.000 €</span></div>
+        </div>
+        <div class="card" id="dm-2" style="top: 590px">
+          <div class="t">Box A leer</div>
+          <div class="d">1-Box: 0 € | 2-Box: <span class="green">1.000 €</span></div>
+        </div>
+        <div class="card" id="dm-3" style="top: 800px; border-color: #ffc94a">
+          <div class="t gold">Das Paradox</div>
+          <div class="d">Ist p groß, gewinnen 1-Boxer im Schnitt trotzdem mehr.</div>
+        </div>
+      </section>
+    </div>
+
+    <!-- Abzweig: Break-even -->
+    <div
+      class="scene clip"
+      data-composition-id="grenze-1"
+      data-start="96"
+      data-duration="12"
+      data-label="Break-even"
+      data-width="1920"
+      data-height="1080"
+    >
+      <section class="frame clip" data-start="96" data-duration="12" data-track-index="1">
+        <div class="kicker" id="gr-k">Abzweig: Break-even</div>
+        <h2 id="gr-h">Ab einer Trefferquote von p &gt; 0,5005 lohnt sich 1-Box im Schnitt.</h2>
+
+        <div class="formula mono" id="gr-1" style="top: 400px; font-size: 56px">
+          E(1-Box) &gt; E(2-Box)
+        </div>
+        <div class="formula mono" id="gr-2" style="top: 510px; font-size: 56px">
+          1.000.000·p &gt; 1.000 + 1.000.000·(1 − p)
+        </div>
+        <div class="formula mono" id="gr-3" style="top: 620px; font-size: 56px">
+          2.000.000·p &gt; 1.001.000
+        </div>
+        <div class="formula mono gold" id="gr-4" style="top: 730px; font-size: 72px">
+          p &gt; 0,5005
+        </div>
+      </section>
+    </div>
+
+    <!-- 9 · Live-Experiment -->
+    <div
+      class="scene clip"
+      data-composition-id="live"
+      data-start="142"
+      data-duration="14"
+      data-label="Live-Experiment"
+      data-width="1920"
+      data-height="1080"
+    >
+      <section class="frame clip" data-start="142" data-duration="14" data-track-index="1" style="padding: 28px 120px">
+        <h2 id="lv-h" style="font-size: 54px; max-width: none">Experiment</h2>
+        <iframe
+          id="lv-frame"
+          src="experiment.html?embed=1"
+          title="Newcomb-Experiment live"
+          style="position: absolute; left: 60px; top: 104px; width: 1800px; height: 966px; border: 3px solid #2a3557; border-radius: 20px; background: #0b1020"
+        ></iframe>
+      </section>
+    </div>
+
+    </div>
+
+    <script>
+      // Knopf auf Folie 1: springt zur Live-Folie (Hauptfolie 8, Index 7)
+      document.getElementById("hook-go").addEventListener("click", function () {
+        try {
+          window.parent.document.querySelector("hyperframes-slideshow").controller.goToSlide(7);
+        } catch (e) {}
+      });
+      window.__timelines = window.__timelines || {};
+      var root = gsap.timeline({ paused: true });
+      root.to({}, { duration: 156 }, 0);
+      window.__timelines["root"] = root;
+      function mk() {
+        var tl = gsap.timeline();
+        root.add(tl, 0);
+        return tl;
+      }
+
+      // Sichtbarkeit: nur die Folie der aktuellen Zeit ist sichtbar und klickbar
+      var SCENES = [
+        ["hook", 0, 6],
+        ["boxen", 6, 20],
+        ["ablauf", 20, 36],
+        ["matrix", 36, 50],
+        ["erwartung", 50, 78],
+        ["dominanz-1", 84, 96],
+        ["grenze-1", 96, 108],
+        ["beispiel", 108, 128],
+        ["praediktor", 128, 142],
+        ["live", 142, 156],
+      ];
+      function updateVisibility(t) {
+        SCENES.forEach(function (s) {
+          var el = document.querySelector('[data-composition-id="' + s[0] + '"]');
+          if (!el) return;
+          var on = t >= s[1] && t < s[2];
+          el.style.opacity = on ? "1" : "0";
+          el.style.visibility = on ? "visible" : "hidden";
+          el.style.pointerEvents = on ? "auto" : "none";
+        });
+      }
+      root.eventCallback("onUpdate", function () {
+        updateVisibility(root.time());
+      });
+      updateVisibility(0);
+
+      function show(tl, sel, t, dx) {
+        tl.fromTo(
+          sel,
+          { opacity: 0, y: 36, x: dx || 0 },
+          { opacity: 1, y: 0, x: 0, duration: 0.7, ease: "power3.out" },
+          t,
+        );
+      }
+
+      // 1 · Einstieg (0-6) — fertig vor Ruhebild bei 3 s
+      var t1 = mk();
+      show(t1, "#hook-k", 0.2);
+      show(t1, "#hook-h", 0.5);
+      show(t1, "#hook-s", 1.2);
+      show(t1, "#hook-go", 1.7);
+
+      // 2 · Boxen (6-20), Fragmente 8 / 12 / 16
+      var t2 = mk();
+      show(t2, "#bx-k", 6.1);
+      show(t2, "#bx-h", 6.3);
+      show(t2, "#bx-a", 7.0, -60);
+      show(t2, "#bx-b", 11.0, 60);
+      show(t2, "#bx-c1", 14.9);
+      show(t2, "#bx-c2", 15.1);
+
+      // 9 · Live-Experiment (142-156), Ruhebild bei 149 s
+      var t9 = mk();
+      show(t9, "#lv-h", 142.2);
+      show(t9, "#lv-frame", 142.6);
+
+      // 2b · Prädiktor (128-142), Fragmente 130 / 134 / 138
+      var t2b = mk();
+      show(t2b, "#pa-k", 128.1);
+      show(t2b, "#pa-h", 128.3);
+      show(t2b, "#pa-1", 129.0, -60);
+      show(t2b, "#pa-2", 133.0, -60);
+      show(t2b, "#pa-n", 137.0);
+
+      // 3 · Ablauf (20-36), Fragmente 22 / 26 / 30 / 34
+      var t3 = mk();
+      show(t3, "#ab-k", 20.1);
+      show(t3, "#ab-h", 20.3);
+      show(t3, "#ab-1", 21.0, -60);
+      show(t3, "#ab-2", 25.0, -60);
+      show(t3, "#ab-3", 29.0, -60);
+      show(t3, "#ab-4", 33.0, -60);
+
+      // 4 · Matrix (36-50), Fragmente 38 / 42 / 46
+      var t4 = mk();
+      show(t4, "#mx-k", 36.1);
+      show(t4, "#mx-h", 36.3);
+      show(t4, "#mx-c1", 36.8);
+      show(t4, "#mx-c2", 36.9);
+      show(t4, "#mx-r1", 37.0);
+      show(t4, "#mx-11", 37.1);
+      show(t4, "#mx-12", 37.2);
+      show(t4, "#mx-r2", 41.0);
+      show(t4, "#mx-21", 41.1);
+      show(t4, "#mx-22", 41.2);
+      // Treffer / Fehler-Badges bei 46
+      t4.fromTo("#mx-11b", { opacity: 0 }, { opacity: 1, duration: 0.5 }, 45.0);
+      t4.fromTo("#mx-22b", { opacity: 0 }, { opacity: 1, duration: 0.5 }, 45.0);
+      t4.fromTo("#mx-12b", { opacity: 0 }, { opacity: 1, duration: 0.5 }, 45.0);
+      t4.fromTo("#mx-21b", { opacity: 0 }, { opacity: 1, duration: 0.5 }, 45.0);
+      t4.fromTo("#mx-11", { borderColor: "#2a3557" }, { borderColor: "#5fe0a0", duration: 0.5 }, 45.0);
+      t4.fromTo("#mx-22", { borderColor: "#2a3557" }, { borderColor: "#5fe0a0", duration: 0.5 }, 45.0);
+      t4.fromTo("#mx-12", { borderColor: "#2a3557" }, { borderColor: "#ff7385", duration: 0.5 }, 45.0);
+      t4.fromTo("#mx-21", { borderColor: "#2a3557" }, { borderColor: "#ff7385", duration: 0.5 }, 45.0);
+      show(t4, "#mx-leg", 45.2);
+
+      // 4b · Beispiel p = 0,7 (108-128), Fragmente 110 / 114 / 118 / 122 / 126
+      var t4b = mk();
+      show(t4b, "#bs-k", 108.1);
+      show(t4b, "#bs-h", 108.3);
+      show(t4b, "#bs-s", 108.6);
+      for (var i = 1; i <= 10; i++) {
+        t4b.fromTo("#bs-t" + i, { opacity: 0 }, { opacity: 1, duration: 0.4 }, 108.8 + i * 0.05);
+      }
+      // 7 Treffer bei 114
+      for (var j = 1; j <= 7; j++) {
+        t4b.fromTo("#bs-t" + j + " .q", { opacity: 1 }, { opacity: 0, duration: 0.3 }, 112.5 + j * 0.05);
+        t4b.fromTo("#bs-t" + j + " .v", { opacity: 0 }, { opacity: 1, duration: 0.3 }, 112.5 + j * 0.05);
+        t4b.fromTo("#bs-t" + j, { borderColor: "#2a3557" }, { borderColor: "#5fe0a0", duration: 0.4 }, 112.5 + j * 0.05);
+      }
+      show(t4b, "#bs-l1", 113.0);
+      // 3 Fehler bei 118
+      for (var k = 8; k <= 10; k++) {
+        t4b.fromTo("#bs-t" + k + " .q", { opacity: 1 }, { opacity: 0, duration: 0.3 }, 116.5 + (k - 7) * 0.05);
+        t4b.fromTo("#bs-t" + k + " .v", { opacity: 0 }, { opacity: 1, duration: 0.3 }, 116.5 + (k - 7) * 0.05);
+        t4b.fromTo("#bs-t" + k, { borderColor: "#2a3557" }, { borderColor: "#ff7385", duration: 0.4 }, 116.5 + (k - 7) * 0.05);
+      }
+      show(t4b, "#bs-l2", 117.0, 40);
+      show(t4b, "#bs-sum1", 121.0);
+      show(t4b, "#bs-sum2", 125.0);
+
+      // 5 · Erwartungswerte (50-78), Fragmente 52 / 56 / 60 / 64 / 68 / 72 / 76
+      var t5 = mk();
+      show(t5, "#ew-k", 50.1);
+      show(t5, "#ew-h", 50.3);
+      show(t5, "#ew-f1", 51.0, -60);
+      show(t5, "#ew-f2", 55.0, -60);
+      show(t5, "#ew-th", 59.0);
+      show(t5, "#ew-t1", 59.2);
+      show(t5, "#ew-t2", 63.0);
+      show(t5, "#ew-t3", 67.0);
+      show(t5, "#ew-t4", 71.0);
+      show(t5, "#ew-t5", 75.0);
+
+      // Abzweig: Dominanz (84-96), Ruhebild bei 90 s
+      var tb1 = mk();
+      show(tb1, "#dm-k", 84.1);
+      show(tb1, "#dm-h", 84.3);
+      show(tb1, "#dm-1", 85.0, -60);
+      show(tb1, "#dm-2", 86.0, -60);
+      show(tb1, "#dm-3", 87.5, -60);
+
+      // Abzweig: Break-even (96-108), Ruhebild bei 102 s
+      var tb2 = mk();
+      show(tb2, "#gr-k", 96.1);
+      show(tb2, "#gr-h", 96.3);
+      show(tb2, "#gr-1", 97.0, -60);
+      show(tb2, "#gr-2", 98.0, -60);
+      show(tb2, "#gr-3", 99.0, -60);
+      show(tb2, "#gr-4", 100.0, -60);
+    </script>
+  </body>
+</html>

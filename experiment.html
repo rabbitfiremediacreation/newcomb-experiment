@@ -1,0 +1,1348 @@
+<!doctype html>
+<html lang="de">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Newcomb-Experiment live</title>
+    <style>
+      :root {
+        --bg: #0b1020;
+        --panel: #151c33;
+        --panel2: #1c2547;
+        --line: #2a3557;
+        --text: #f4f6fb;
+        --muted: #aab4d0;
+        --gold: #ffc94a;
+        --blue: #5aa9ff;
+        --green: #5fe0a0;
+        --red: #ff7385;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        margin: 0;
+        background: radial-gradient(1200px 700px at 80% -10%, #18244a 0%, var(--bg) 70%) fixed;
+        color: var(--text);
+        font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+        font-size: 18px;
+        line-height: 1.4;
+      }
+      .wrap {
+        max-width: 1280px;
+        margin: 0 auto;
+        padding: 24px 20px 60px;
+      }
+      header {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: baseline;
+        justify-content: space-between;
+        gap: 8px 24px;
+        margin-bottom: 18px;
+      }
+      h1 {
+        margin: 0;
+        font-size: 32px;
+        letter-spacing: -0.02em;
+      }
+      h1 span {
+        color: var(--gold);
+      }
+      a {
+        color: var(--blue);
+      }
+      .intro {
+        color: var(--muted);
+        margin: 0 0 20px;
+        max-width: 900px;
+      }
+      .panel {
+        background: var(--panel);
+        border: 2px solid var(--line);
+        border-radius: 20px;
+        padding: 18px 20px;
+      }
+      h2 {
+        margin: 0 0 12px;
+        font-size: 20px;
+        color: var(--gold);
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+      }
+
+      /* Einstellungen */
+      .controls {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 18px 26px;
+        align-items: start;
+      }
+      .ctl label,
+      .ctl .lbl {
+        display: block;
+        font-weight: 700;
+        margin-bottom: 6px;
+      }
+      .ctl label,
+      .ctl .lbl {
+        font-size: 20px;
+      }
+      .ctl .val {
+        color: var(--gold);
+        font-size: 36px;
+        font-weight: 800;
+        line-height: 1.1;
+        margin-left: 6px;
+        font-variant-numeric: tabular-nums;
+      }
+      input[type="range"] {
+        -webkit-appearance: none;
+        appearance: none;
+        width: 100%;
+        height: 34px;
+        margin: 6px 0;
+        background: transparent;
+        cursor: pointer;
+      }
+      input[type="range"]::-webkit-slider-runnable-track {
+        height: 16px;
+        border-radius: 10px;
+        background: var(--panel2);
+        border: 2px solid var(--line);
+      }
+      input[type="range"]::-webkit-slider-thumb {
+        -webkit-appearance: none;
+        width: 34px;
+        height: 34px;
+        margin-top: -10px;
+        border-radius: 50%;
+        background: var(--gold);
+        border: 3px solid #1a1400;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+      }
+      input[type="range"]::-moz-range-track {
+        height: 12px;
+        border-radius: 10px;
+        background: var(--panel2);
+        border: 2px solid var(--line);
+      }
+      input[type="range"]::-moz-range-thumb {
+        width: 28px;
+        height: 28px;
+        border-radius: 50%;
+        background: var(--gold);
+        border: 3px solid #1a1400;
+      }
+      .hint {
+        color: var(--muted);
+        font-size: 15px;
+        margin-top: 4px;
+      }
+      .theory {
+        margin-top: 8px;
+        font-size: 17px;
+        font-weight: 700;
+        line-height: 1.5;
+      }
+      .theory .tl {
+        color: var(--muted);
+        font-size: 15px;
+      }
+      .theory .tv {
+        color: var(--gold);
+        font-size: 28px;
+        font-weight: 800;
+      }
+      .theory .trow2 {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: baseline;
+        gap: 0 26px;
+      }
+      .embed .theory .tl {
+        font-size: 18px;
+      }
+      .embed .theory .tv {
+        font-size: 44px;
+      }
+      .embed .theory {
+        font-size: 24px;
+      }
+      .sbtns {
+        display: flex;
+        gap: 12px;
+        flex-wrap: wrap;
+      }
+      .sbtn {
+        flex: 1 1 150px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 2px;
+        padding: 10px 14px 12px;
+        border-radius: 16px;
+        background: var(--panel2);
+        border: 3px solid var(--line);
+        color: var(--muted);
+        transition: transform 0.1s, box-shadow 0.15s, background 0.15s;
+      }
+      .sbtn .sn {
+        font-size: 30px;
+        font-weight: 800;
+        line-height: 1.1;
+      }
+      .sbtn .ss {
+        font-size: 15px;
+        font-weight: 600;
+      }
+      .sbtn:hover {
+        transform: translateY(-1px);
+      }
+      .sbtn.s1 {
+        --c: var(--blue);
+      }
+      .sbtn.s2 {
+        --c: var(--gold);
+      }
+      .sbtn[aria-pressed="true"] {
+        background: var(--c);
+        border-color: var(--c);
+        color: #0b1020;
+        box-shadow: 0 0 18px color-mix(in srgb, var(--c) 55%, transparent);
+      }
+      .sbtn[aria-pressed="false"] {
+        border-color: var(--c);
+        color: var(--c);
+      }
+      .radios label {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: baseline;
+        gap: 0 10px;
+        font-weight: 500;
+        margin: 6px 0;
+        cursor: pointer;
+      }
+      .radios input {
+        width: 20px;
+        height: 20px;
+        accent-color: var(--gold);
+        align-self: center;
+      }
+      .radios .rn {
+        font-size: 19px;
+      }
+      .radios .pot {
+        color: var(--gold);
+        font-size: 16px;
+        font-weight: 700;
+      }
+      select {
+        width: 100%;
+        background: var(--panel2);
+        color: var(--text);
+        border: 2px solid var(--line);
+        border-radius: 10px;
+        padding: 8px 10px;
+        font-size: 17px;
+      }
+      .buttons {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin-top: 18px;
+      }
+      button {
+        font: inherit;
+        font-weight: 700;
+        cursor: pointer;
+        color: var(--text);
+        background: var(--panel2);
+        border: 2px solid var(--line);
+        border-radius: 12px;
+        padding: 10px 18px;
+      }
+      button.primary {
+        background: var(--gold);
+        border-color: var(--gold);
+        color: #1a1400;
+      }
+      button:disabled {
+        opacity: 0.4;
+        cursor: not-allowed;
+      }
+      button:focus-visible,
+      input:focus-visible,
+      select:focus-visible {
+        outline: 3px solid var(--blue);
+        outline-offset: 2px;
+      }
+      .progress {
+        margin-top: 16px;
+      }
+      .bar {
+        height: 12px;
+        background: var(--panel2);
+        border-radius: 8px;
+        overflow: hidden;
+        margin-top: 6px;
+      }
+      .bar > div {
+        height: 100%;
+        width: 0;
+        background: linear-gradient(90deg, var(--blue), var(--gold));
+        transition: width 0.15s;
+      }
+
+      .grid {
+        display: grid;
+        grid-template-columns: minmax(0, 5fr) minmax(0, 6fr);
+        gap: 18px;
+        margin-top: 18px;
+      }
+      @media (max-width: 1000px) {
+        .grid {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      /* Einarmiger Bandit */
+      .machine {
+        display: flex;
+        gap: 14px;
+        align-items: stretch;
+        border: 3px solid var(--gold);
+        border-radius: 22px;
+        padding: 14px;
+        background: linear-gradient(180deg, #221b3c, #141a33);
+        box-shadow: 0 0 0 4px rgba(255, 201, 74, 0.12) inset;
+      }
+      .machine .body {
+        flex: 1;
+        min-width: 0;
+      }
+      .marquee {
+        text-align: center;
+        font-weight: 800;
+        letter-spacing: 0.18em;
+        color: var(--gold);
+        font-size: 18px;
+        margin-bottom: 10px;
+      }
+      .srow {
+        margin-bottom: 12px;
+      }
+      .srow.hidden {
+        display: none;
+      }
+      .rowlabel {
+        font-weight: 700;
+        margin-bottom: 6px;
+      }
+      .rowlabel small {
+        color: var(--muted);
+        font-weight: 500;
+      }
+      .reels {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 8px;
+      }
+      .reel {
+        background: #0a0f22;
+        border: 3px solid var(--line);
+        border-radius: 12px;
+        padding: 6px 4px 10px;
+        text-align: center;
+        overflow: hidden;
+        container-type: inline-size;
+      }
+      .reel .cap {
+        font-size: 13px;
+        color: var(--muted);
+        margin-bottom: 4px;
+      }
+      .reel .sym {
+        height: 46px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: clamp(11px, 12.5cqw, 22px);
+        white-space: nowrap;
+        font-weight: 800;
+        font-variant-numeric: tabular-nums;
+        color: var(--muted);
+      }
+      .reel .sym.spin {
+        filter: blur(1.5px);
+        color: var(--text);
+      }
+      .reel .sym.pop {
+        animation: pop 0.25s ease-out;
+      }
+      @keyframes pop {
+        0% {
+          transform: scale(1.35);
+        }
+        100% {
+          transform: scale(1);
+        }
+      }
+      .sym.c-blue {
+        color: var(--blue);
+      }
+      .sym.c-green {
+        color: var(--green);
+      }
+      .sym.c-red {
+        color: var(--red);
+      }
+      .sym.c-gold {
+        color: var(--gold);
+      }
+      .badge {
+        height: 28px;
+        margin-top: 6px;
+        text-align: center;
+        font-weight: 800;
+        font-size: 16px;
+      }
+      .badge.hit {
+        color: var(--green);
+      }
+      .badge.miss {
+        color: var(--red);
+      }
+
+      .leverwrap {
+        width: 78px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 4px;
+      }
+      .atoggle {
+        width: 46px;
+        height: 46px;
+        padding: 0;
+        border-radius: 50%;
+        background: var(--panel2);
+        border: 3px solid var(--line);
+        color: var(--muted);
+        font-size: 24px;
+        font-weight: 800;
+      }
+      .atoggle[aria-pressed="true"] {
+        background: var(--gold);
+        border-color: var(--gold);
+        color: #1a1400;
+        box-shadow: 0 0 14px rgba(255, 201, 74, 0.6);
+      }
+      .acap {
+        font-size: 12px;
+        font-weight: 700;
+        color: var(--muted);
+        margin-bottom: 6px;
+      }
+      .lever {
+        width: 78px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        background: none;
+        border: none;
+        padding: 0;
+      }
+      .lever .track {
+        position: relative;
+        width: 26px;
+        height: 200px;
+        background: #0a0f22;
+        border: 3px solid var(--line);
+        border-radius: 14px;
+      }
+      .lever .arm {
+        position: absolute;
+        left: 50%;
+        bottom: 10px;
+        width: 10px;
+        height: 130px;
+        margin-left: -5px;
+        background: linear-gradient(90deg, #8b93b3, #d7dcf0, #8b93b3);
+        border-radius: 6px;
+        transform-origin: bottom;
+        transition: transform 0.2s ease-in;
+      }
+      .lever .ball {
+        position: absolute;
+        left: 50%;
+        top: 8px;
+        width: 44px;
+        height: 44px;
+        margin-left: -22px;
+        border-radius: 50%;
+        background: radial-gradient(circle at 35% 30%, #ff9aa6, #d6243f 70%);
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+        transition: transform 0.2s ease-in;
+      }
+      .lever.pulled .arm {
+        transform: scaleY(0.25);
+      }
+      .lever.pulled .ball {
+        transform: translateY(126px);
+      }
+      .lever:not(:disabled):hover .ball {
+        filter: brightness(1.15);
+      }
+      .lever:disabled {
+        opacity: 0.6;
+      }
+      .lever .txt {
+        margin-top: 8px;
+        font-size: 14px;
+        font-weight: 700;
+        color: var(--gold);
+      }
+
+      canvas {
+        width: 100%;
+        height: 340px;
+        display: block;
+        background: #0f1630;
+        border-radius: 12px;
+      }
+      .legend {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px 20px;
+        margin-top: 10px;
+        font-size: 15px;
+        color: var(--muted);
+      }
+      .legend i {
+        display: inline-block;
+        width: 26px;
+        height: 0;
+        border-top: 4px solid;
+        vertical-align: middle;
+        margin-right: 6px;
+      }
+      .legend i.dash {
+        border-top-style: dashed;
+      }
+
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        font-variant-numeric: tabular-nums;
+      }
+      th,
+      td {
+        text-align: right;
+        padding: 8px 10px;
+        border-bottom: 1px solid var(--line);
+      }
+      th:first-child,
+      td:first-child {
+        text-align: left;
+      }
+      th {
+        color: var(--blue);
+        font-size: 15px;
+      }
+      .tablewrap {
+        overflow-x: auto;
+      }
+      .hit {
+        color: var(--green);
+      }
+      .miss {
+        color: var(--red);
+      }
+      .message {
+        margin-top: 14px;
+        padding: 16px 20px;
+        border: 3px solid var(--gold);
+        border-radius: 16px;
+        background: rgba(255, 201, 74, 0.08);
+        display: none;
+        gap: 18px 28px;
+        align-items: center;
+      }
+      .message.show {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) auto;
+      }
+      .msgtext {
+        min-width: 0;
+      }
+      .msgres {
+        display: flex;
+        gap: 14px;
+      }
+      .res {
+        min-width: 210px;
+        text-align: center;
+        padding: 12px 18px 14px;
+        border-radius: 16px;
+        border: 3px solid var(--line);
+        background: var(--panel2);
+      }
+      .res .rl {
+        font-size: 14px;
+        font-weight: 700;
+        color: var(--muted);
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+      }
+      .res .rv {
+        font-size: 40px;
+        font-weight: 800;
+        line-height: 1.15;
+        margin-top: 2px;
+      }
+      .res .rs {
+        font-size: 15px;
+        color: var(--muted);
+      }
+      .res.s1 {
+        border-color: var(--blue);
+      }
+      .res.s1 .rv {
+        color: var(--blue);
+      }
+      .res.s2 {
+        border-color: var(--gold);
+      }
+      .res.s2 .rv {
+        color: var(--gold);
+      }
+      @media (max-width: 900px) {
+        .message.show {
+          grid-template-columns: 1fr;
+        }
+        .msgres {
+          flex-wrap: wrap;
+        }
+      }
+      /* Einbettung in die Praesentation (?embed) */
+      .embed header,
+      .embed .intro,
+      .embed #logPanel,
+      .embed .hint {
+        display: none;
+      }
+      .embed .wrap {
+        max-width: none;
+        padding: 6px 10px 10px;
+      }
+      .embed .panel {
+        padding: 10px 16px;
+      }
+      .embed h2 {
+        margin-bottom: 8px;
+        font-size: 17px;
+      }
+      .embed .controls {
+        gap: 8px 24px;
+      }
+      .embed .buttons {
+        margin-top: 10px;
+      }
+      .embed .progress {
+        margin-top: 8px;
+      }
+      .embed .grid {
+        margin-top: 10px;
+        gap: 10px;
+      }
+      .embed canvas {
+        height: 215px;
+      }
+      .embed .lever .track {
+        height: 150px;
+      }
+      .embed .lever .arm {
+        height: 90px;
+      }
+      .embed .lever.pulled .ball {
+        transform: translateY(80px);
+      }
+      .embed .marquee {
+        margin-bottom: 4px;
+      }
+      .embed .srow {
+        margin-bottom: 6px;
+      }
+      .embed .message {
+        margin-top: 10px;
+        padding: 10px 14px;
+      }
+      .embed #statsPanel {
+        margin-top: 10px !important;
+      }
+      .msgnote {
+        color: var(--muted);
+        font-size: 15px;
+        margin-top: 10px;
+        min-height: 22px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="wrap">
+      <header>
+        <h1>Newcomb-<span>Experiment</span> live</h1>
+        <a href="/">← zurück zur Präsentation</a>
+      </header>
+      <p class="intro">
+        Du bist Kandidat in einer Spielshow und spielst gegen die Show. Ihr Prädiktor versucht dich zu durchschauen:
+        Er tippt vorher, ob du nur Box A oder beide Boxen nimmst, und liegt mit Wahrscheinlichkeit p richtig.
+        Box B ist offen und enthält immer 1.000 €. Box A ist die Mystery-Box: Sie enthält 1.000.000 €, aber nur,
+        wenn der Prädiktor „1-Box“ getippt hat, sonst ist sie leer. Stelle Spielzahl und p ein und ziehe den Hebel. Mit dem Knopf A über dem Hebel schaltest du die Automatik ein: Dann spielt ein Zug alle Spiele durch.
+      </p>
+
+      <section class="panel" aria-label="Einstellungen">
+        <h2>Einstellungen</h2>
+        <div class="controls">
+          <div class="ctl">
+            <label for="n">Spiele pro Strategie: <span class="val" id="nVal">100</span></label>
+            <input id="n" type="range" min="10" max="1000" step="10" value="100" />
+            <div class="hint">von 10 bis 1000</div>
+          </div>
+          <div class="ctl">
+            <label for="p">Trefferquote p: <span class="val" id="pVal">0,70</span></label>
+            <input id="p" type="range" min="0" max="1" step="0.01" value="0.7" />
+            <div class="hint">so oft liegt der Prädiktor richtig</div>
+            <div class="theory" id="pTheory"></div>
+          </div>
+          <div class="ctl">
+            <span class="lbl">Strategie</span>
+            <div class="sbtns" role="group" aria-label="Strategie wählen">
+              <button type="button" class="sbtn s1" id="sb1" aria-pressed="true">
+                <span class="sn">1-Box</span><span class="ss">nur Box A</span>
+              </button>
+              <button type="button" class="sbtn s2" id="sb2" aria-pressed="false">
+                <span class="sn">2-Box</span><span class="ss">Box A und Box B</span>
+              </button>
+            </div>
+            <div class="hint">Beide aktivieren, um sie zu vergleichen</div>
+          </div>
+        </div>
+        <div class="progress" aria-live="polite">
+          <span id="progText">0 von 100 Spielen gespielt</span>
+          <div class="bar"><div id="progBar"></div></div>
+        </div>
+        <div class="msgnote" id="note"></div>
+      </section>
+
+      <div class="grid">
+        <section class="panel" aria-label="Einarmiger Bandit">
+          <h2>Der Bandit</h2>
+          <div class="machine">
+            <div class="body">
+              <div class="marquee">★ NEWCOMB-BANDIT ★</div>
+              <div id="rows"></div>
+            </div>
+            <div class="leverwrap">
+              <button class="atoggle" id="atoggle" type="button" aria-pressed="false" title="Automatik ein- oder ausschalten">A</button>
+              <div class="acap" id="acap">Auto aus</div>
+              <button class="lever" id="lever" type="button" aria-label="Hebel ziehen">
+                <div class="track">
+                  <div class="arm"></div>
+                  <div class="ball"></div>
+                </div>
+                <div class="txt" id="leverTxt">ZIEHEN</div>
+              </button>
+            </div>
+          </div>
+        </section>
+
+        <section class="panel" aria-label="Diagramm">
+          <h2>Durchschnittsgewinn</h2>
+          <canvas id="chart" role="img" aria-label="Verlauf des Durchschnittsgewinns pro Spiel"></canvas>
+          <div class="legend" id="legend"></div>
+        </section>
+      </div>
+
+      <div class="message" id="message" role="status"></div>
+
+      <section class="panel" id="statsPanel" style="margin-top: 18px" aria-label="Auswertung">
+        <h2>Auswertung</h2>
+        <div class="tablewrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Strategie</th>
+                <th>Spiele</th>
+                <th>Treffer des Prädiktors</th>
+                <th>Ø Gewinn (Simulation)</th>
+                <th>Ø Gewinn (Theorie)</th>
+                <th>Abweichung</th>
+              </tr>
+            </thead>
+            <tbody id="stats"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="panel" id="logPanel" style="margin-top: 18px" aria-label="Letzte Spiele">
+        <h2>Die letzten Spiele</h2>
+        <div class="tablewrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Spiel</th>
+                <th>Strategie</th>
+                <th>Prädiktor tippte</th>
+                <th>Treffer?</th>
+                <th>Box A enthielt</th>
+                <th>Gewinn</th>
+              </tr>
+            </thead>
+            <tbody id="log"></tbody>
+          </table>
+        </div>
+      </section>
+    </div>
+
+    <script>
+      if (/[?&]embed/.test(location.search)) document.body.classList.add("embed");
+      (function () {
+        var BOX_A = 1000000; // Mystery-Box
+        var BOX_B = 1000; // offene Box
+        var NAMES = { 1: "1-Box", 2: "2-Box" };
+        var COLORS = { 1: "#5aa9ff", 2: "#ffc94a" };
+        var fmt = new Intl.NumberFormat("de-DE", { maximumFractionDigits: 0 });
+
+        function euro(x) {
+          return fmt.format(Math.round(x)) + " €";
+        }
+        function pText(p) {
+          return p.toFixed(2).replace(".", ",");
+        }
+        function $(id) {
+          return document.getElementById(id);
+        }
+        function sleep(ms) {
+          return new Promise(function (r) {
+            setTimeout(r, ms);
+          });
+        }
+
+        var el = {
+          n: $("n"),
+          nVal: $("nVal"),
+          p: $("p"),
+          pVal: $("pVal"),
+          lever: $("lever"),
+          leverTxt: $("leverTxt"),
+          atoggle: $("atoggle"),
+          acap: $("acap"),
+          progText: $("progText"),
+          progBar: $("progBar"),
+          note: $("note"),
+          pTheory: $("pTheory"),
+          rows: $("rows"),
+          chart: $("chart"),
+          legend: $("legend"),
+          stats: $("stats"),
+          log: $("log"),
+          message: $("message"),
+        };
+
+        // ---------- Zustand ----------
+        var state;
+        var runId = 0;
+        var busy = false;
+        var auto = false;
+        var autoMode = false; // Schalter "A": Standard aus
+
+        function newState() {
+          return {
+            played: 0,
+            per: {
+              1: { sum: 0, hits: 0, avg: [] },
+              2: { sum: 0, hits: 0, avg: [] },
+            },
+            log: [],
+          };
+        }
+
+        function settings() {
+          var active = [];
+          if ($("sb1").getAttribute("aria-pressed") === "true") active.push(1);
+          if ($("sb2").getAttribute("aria-pressed") === "true") active.push(2);
+          return {
+            n: parseInt(el.n.value, 10),
+            p: parseFloat(el.p.value),
+            active: active,
+            fast: true,
+          };
+        }
+
+        function theory(s, p) {
+          return s === 1 ? BOX_A * p : BOX_B + BOX_A * (1 - p);
+        }
+
+        // ---------- Spiellogik (wie im Python-Skript) ----------
+        function playGame(s, p) {
+          var right = Math.random() < p;
+          var tip = s === 1 ? (right ? 1 : 2) : right ? 2 : 1;
+          var boxA = tip === 1 ? BOX_A : 0;
+          var gain = s === 1 ? boxA : BOX_B + boxA;
+          return { s: s, tip: tip, right: right, boxA: boxA, gain: gain };
+        }
+
+        function record(r) {
+          var per = state.per[r.s];
+          per.sum += r.gain;
+          if (r.right) per.hits += 1;
+          per.avg.push(per.sum / (per.avg.length + 1));
+          state.log.unshift({ nr: per.avg.length, r: r });
+          if (state.log.length > 12) state.log.pop();
+        }
+
+        // ---------- Bandit ----------
+        function buildRows() {
+          el.rows.innerHTML = "";
+          [1, 2].forEach(function (s) {
+            var d = document.createElement("div");
+            d.className = "srow";
+            d.id = "srow" + s;
+            d.innerHTML =
+              '<div class="rowlabel">' +
+              NAMES[s] +
+              " <small>" +
+              (s === 1 ? "du nimmst nur Box A" : "du nimmst Box A und Box B") +
+              "</small></div>" +
+              '<div class="reels">' +
+              '<div class="reel"><div class="cap">Prädiktor tippt</div><div class="sym" id="tip' + s + '">?</div></div>' +
+              '<div class="reel"><div class="cap">Box A enthält</div><div class="sym" id="box' + s + '">?</div></div>' +
+              '<div class="reel"><div class="cap">Dein Gewinn</div><div class="sym" id="gain' + s + '">?</div></div>' +
+              "</div>" +
+              '<div class="badge" id="badge' + s + '"></div>';
+            el.rows.appendChild(d);
+          });
+        }
+
+        function showRows() {
+          var a = settings().active;
+          [1, 2].forEach(function (s) {
+            $("srow" + s).classList.toggle("hidden", a.indexOf(s) < 0);
+          });
+        }
+
+        function setSym(id, text, cls) {
+          var e = $(id);
+          e.className = "sym" + (cls ? " " + cls : "");
+          e.textContent = text;
+        }
+
+        function resetReels() {
+          [1, 2].forEach(function (s) {
+            setSym("tip" + s, "?");
+            setSym("box" + s, "?");
+            setSym("gain" + s, "?");
+            $("badge" + s).textContent = "";
+            $("badge" + s).className = "badge";
+          });
+        }
+
+        function finalReels(r) {
+          var s = r.s;
+          setSym("tip" + s, NAMES[r.tip], "c-blue pop");
+          setSym("box" + s, r.boxA > 0 ? euro(r.boxA) : "leer", r.boxA > 0 ? "c-green pop" : "c-red pop");
+          setSym("gain" + s, euro(r.gain), "c-gold pop");
+          var b = $("badge" + s);
+          b.textContent = r.right ? "✔ Prädiktor hatte Recht" : "✘ Prädiktor hat sich geirrt";
+          b.className = "badge " + (r.right ? "hit" : "miss");
+        }
+
+        var POOLS = {
+          tip: function () {
+            return NAMES[1 + Math.floor(Math.random() * 2)];
+          },
+          box: function () {
+            return Math.random() < 0.5 ? euro(BOX_A) : "leer";
+          },
+          gain: function () {
+            return euro([0, BOX_B, BOX_A, BOX_A + BOX_B][Math.floor(Math.random() * 4)]);
+          },
+        };
+
+        function spinOne(kind, s, stopAfter, done) {
+          var id = kind + s;
+          var t = setInterval(function () {
+            setSym(id, POOLS[kind](), "spin");
+          }, 70);
+          return sleep(stopAfter).then(function () {
+            clearInterval(t);
+            done();
+          });
+        }
+
+        function animateRow(r, myRun) {
+          var s = r.s;
+          $("badge" + s).textContent = "";
+          $("badge" + s).className = "badge";
+          var stopped = function () {
+            return myRun !== runId;
+          };
+          var p1 = spinOne("tip", s, 600, function () {
+            if (stopped()) return;
+            setSym("tip" + s, NAMES[r.tip], "c-blue pop");
+          });
+          var p2 = spinOne("box", s, 1000, function () {
+            if (stopped()) return;
+            setSym("box" + s, r.boxA > 0 ? euro(r.boxA) : "leer", r.boxA > 0 ? "c-green pop" : "c-red pop");
+          });
+          var p3 = spinOne("gain", s, 1400, function () {
+            if (stopped()) return;
+            finalReels(r);
+          });
+          return Promise.all([p1, p2, p3]);
+        }
+
+        function pullLever() {
+          el.lever.classList.add("pulled");
+          setTimeout(function () {
+            el.lever.classList.remove("pulled");
+          }, 350);
+        }
+
+        // ---------- Anzeige ----------
+        function renderProgress() {
+          var n = settings().n;
+          el.progText.textContent = state.played + " von " + n + " Spielen gespielt";
+          el.progBar.style.width = Math.min(100, (state.played / n) * 100) + "%";
+        }
+
+        function renderStats() {
+          var st = settings();
+          var html = "";
+          st.active.forEach(function (s) {
+            var per = state.per[s];
+            var th = theory(s, st.p);
+            if (state.played === 0) {
+              html +=
+                "<tr><td>" + NAMES[s] + "</td><td>0</td><td>–</td><td>–</td><td>" + euro(th) + "</td><td>–</td></tr>";
+              return;
+            }
+            var avg = per.sum / state.played;
+            var dev = avg - th;
+            html +=
+              "<tr><td>" + NAMES[s] + "</td><td>" + state.played + "</td><td>" + per.hits + " (" +
+              Math.round((per.hits / state.played) * 100) + " %)</td><td>" + euro(avg) + "</td><td>" + euro(th) +
+              "</td><td>" + (dev >= 0 ? "+" : "−") + euro(Math.abs(dev)) + " (" +
+              (dev >= 0 ? "+" : "−") + (Math.abs(dev / th) * 100).toFixed(1).replace(".", ",") + " %)</td></tr>";
+          });
+          el.stats.innerHTML = html;
+        }
+
+        function renderLog() {
+          var st = settings();
+          var html = "";
+          state.log.forEach(function (e) {
+            if (st.active.indexOf(e.r.s) < 0) return;
+            html +=
+              "<tr><td>" + e.nr + "</td><td>" + NAMES[e.r.s] + "</td><td>" + NAMES[e.r.tip] + '</td><td class="' +
+              (e.r.right ? "hit" : "miss") + '">' + (e.r.right ? "ja" : "nein") + "</td><td>" +
+              (e.r.boxA > 0 ? euro(e.r.boxA) : "leer") + "</td><td>" + euro(e.r.gain) + "</td></tr>";
+          });
+          el.log.innerHTML = html || '<tr><td colspan="6" style="text-align:left;color:var(--muted)">Noch kein Spiel gespielt.</td></tr>';
+        }
+
+        function renderLegend() {
+          var st = settings();
+          var html = "";
+          st.active.forEach(function (s) {
+            html +=
+              '<span><i style="border-color:' + COLORS[s] + '"></i>' + NAMES[s] + " (Simulation)</span>" +
+              '<span><i class="dash" style="border-color:' + COLORS[s] + '"></i>' + NAMES[s] + " Theorie: " +
+              euro(theory(s, st.p)) + "</span>";
+          });
+          el.legend.innerHTML = html;
+        }
+
+        function drawChart() {
+          var st = settings();
+          var c = el.chart;
+          var dpr = window.devicePixelRatio || 1;
+          var W = c.clientWidth;
+          var H = c.clientHeight;
+          if (c.width !== Math.round(W * dpr) || c.height !== Math.round(H * dpr)) {
+            c.width = Math.round(W * dpr);
+            c.height = Math.round(H * dpr);
+          }
+          var g = c.getContext("2d");
+          g.setTransform(dpr, 0, 0, dpr, 0, 0);
+          g.clearRect(0, 0, W, H);
+
+          var L = 78, R = 16, T = 14, B = 52;
+          var pw = W - L - R, ph = H - T - B;
+          var xmax = Math.max(st.n, state.played, 1);
+          var ymax = 1100000;
+          function X(i) { return L + (i / xmax) * pw; }
+          function Y(v) { return T + ph - (v / ymax) * ph; }
+
+          g.font = "13px system-ui, sans-serif";
+          g.textBaseline = "middle";
+          g.lineWidth = 1;
+          [0, 250000, 500000, 750000, 1000000].forEach(function (v) {
+            g.strokeStyle = "#26325a";
+            g.beginPath();
+            g.moveTo(L, Y(v));
+            g.lineTo(W - R, Y(v));
+            g.stroke();
+            g.fillStyle = "#aab4d0";
+            g.textAlign = "right";
+            g.fillText(fmt.format(v), L - 8, Y(v));
+          });
+          g.textAlign = "center";
+          g.textBaseline = "top";
+          for (var k = 0; k <= 4; k++) {
+            var xi = Math.round((xmax * k) / 4);
+            g.fillStyle = "#aab4d0";
+            g.fillText(String(xi), X(xi), H - B + 8);
+          }
+          g.fillText("Anzahl Spiele", L + pw / 2, H - 20);
+
+          st.active.forEach(function (s) {
+            var col = COLORS[s];
+            g.strokeStyle = col;
+            g.lineWidth = 2;
+            g.setLineDash([8, 6]);
+            g.beginPath();
+            g.moveTo(L, Y(theory(s, st.p)));
+            g.lineTo(W - R, Y(theory(s, st.p)));
+            g.stroke();
+            g.setLineDash([]);
+            var a = state.per[s].avg;
+            if (a.length) {
+              g.lineWidth = 3;
+              g.beginPath();
+              a.forEach(function (v, i) {
+                if (i === 0) g.moveTo(X(1), Y(v));
+                else g.lineTo(X(i + 1), Y(v));
+              });
+              g.stroke();
+            }
+          });
+        }
+
+        function renderTheory() {
+          var st = settings();
+          el.pTheory.innerHTML =
+            '<div class="tl">Erwartungswert bei p = ' + pText(st.p) + " (Theorie)</div>" +
+            '<div class="trow2">' +
+            st.active
+              .map(function (s) {
+                return "<span>" + NAMES[s] + ': Ø <span class="tv">' + euro(theory(s, st.p)) + "</span></span>";
+              })
+              .join("") +
+            "</div>";
+        }
+
+        function render() {
+          renderTheory();
+          renderProgress();
+          renderStats();
+          renderLog();
+          renderLegend();
+          drawChart();
+          updateButtons();
+        }
+
+        function updateButtons() {
+          el.lever.disabled = busy;
+          el.leverTxt.textContent = auto ? "STOPP" : "ZIEHEN";
+          el.atoggle.disabled = busy || auto;
+        }
+
+        function finishMessage() {
+          var st = settings();
+          if (state.played < st.n) {
+            el.message.classList.remove("show");
+            return;
+          }
+          var parts = st.active.map(function (s) {
+            return NAMES[s] + ": Ø " + euro(state.per[s].sum / state.played) + " (Theorie " + euro(theory(s, st.p)) + ")";
+          });
+          var text = "<strong>Fertig nach " + st.n + " Spielen bei p = " + pText(st.p) + ".</strong><br>" + parts.join("<br>");
+          var res = "";
+          if (st.active.length === 2) {
+            var simWin = state.per[1].sum >= state.per[2].sum ? 1 : 2;
+            var theoWin = theory(1, st.p) >= theory(2, st.p) ? 1 : 2;
+            var simAvg = Math.max(state.per[1].sum, state.per[2].sum) / state.played;
+            var theoAvg = Math.max(theory(1, st.p), theory(2, st.p));
+            res =
+              '<div class="res s' + simWin + '"><div class="rl">Dieser Durchlauf</div><div class="rv">' +
+              NAMES[simWin] + '</div><div class="rs">war besser (Ø ' + euro(simAvg) + ")</div></div>" +
+              '<div class="res s' + theoWin + '"><div class="rl">Theorie</div><div class="rv">' +
+              NAMES[theoWin] + '</div><div class="rs">ist besser (Ø ' + euro(theoAvg) + ")</div></div>";
+            if (simWin !== theoWin) {
+              text += "<br><span style=\"color:var(--muted)\">Der Durchlauf weicht hier von der Theorie ab. Das ist Zufall, besonders wenn p nahe bei 0,5 liegt und die Erwartungswerte fast gleich sind.</span>";
+            }
+          } else {
+            var s1 = st.active[0];
+            res =
+              '<div class="res s' + s1 + '"><div class="rl">Durchschnitt</div><div class="rv">' +
+              euro(state.per[s1].sum / state.played) + '</div><div class="rs">' + NAMES[s1] + " (Simulation)</div></div>" +
+              '<div class="res s' + s1 + '"><div class="rl">Theorie</div><div class="rv">' +
+              euro(theory(s1, st.p)) + '</div><div class="rs">' + NAMES[s1] + " (Erwartungswert)</div></div>";
+          }
+          el.message.innerHTML = '<div class="msgtext">' + text + '</div><div class="msgres">' + res + "</div>";
+          el.message.classList.add("show");
+        }
+
+        // ---------- Ablauf ----------
+        async function pullOne(animated) {
+          var st = settings();
+          var myRun = runId;
+          var results = st.active.map(function (s) {
+            return playGame(s, st.p);
+          });
+          if (animated) {
+            pullLever();
+            await Promise.all(
+              results.map(function (r) {
+                return animateRow(r, myRun);
+              })
+            );
+            await sleep(100);
+          }
+          if (myRun !== runId) return false;
+          results.forEach(function (r) {
+            record(r);
+            if (!animated) finalReels(r);
+          });
+          state.played += 1;
+          render();
+          finishMessage();
+          return true;
+        }
+
+        async function onPull() {
+          if (busy || auto) return;
+          var myRun = runId;
+          busy = true;
+          updateButtons();
+          el.message.classList.remove("show");
+          await pullOne(true);
+          if (myRun === runId) busy = false;
+          updateButtons();
+        }
+
+        async function onAuto() {
+          if (busy || auto) return;
+          var myRun = runId;
+          auto = true;
+          pullLever();
+          el.message.classList.remove("show");
+          updateButtons();
+          var st = settings();
+          if (st.fast) {
+            var st2 = settings();
+            var batch = Math.max(1, Math.ceil(st2.n / 100));
+            while (auto && myRun === runId && state.played < settings().n) {
+              var cur = settings();
+              for (var i = 0; i < batch && state.played < cur.n; i++) {
+                cur.active.forEach(function (s) {
+                  var r = playGame(s, cur.p);
+                  record(r);
+                  finalReels(r);
+                });
+                state.played += 1;
+              }
+              render();
+              await sleep(30);
+            }
+          } else {
+            while (auto && myRun === runId && state.played < settings().n) {
+              await pullOne(true);
+              await sleep(250);
+            }
+          }
+          if (myRun === runId) {
+            auto = false;
+            render();
+            finishMessage();
+          }
+        }
+
+        function onStop() {
+          auto = false;
+          updateButtons();
+        }
+
+        function onReset(reason) {
+          runId += 1;
+          busy = false;
+          auto = false;
+          state = newState();
+          resetReels();
+          el.message.classList.remove("show");
+          el.note.textContent = reason || "";
+          showRows();
+          render();
+        }
+
+        // ---------- Ereignisse ----------
+        function onLever() {
+          if (auto) {
+            onStop();
+            return;
+          }
+          if (busy) return;
+          if (state.played >= settings().n) onReset(""); // neuer Durchlauf
+          if (autoMode) onAuto();
+          else onPull();
+        }
+        el.lever.addEventListener("click", onLever);
+        el.atoggle.addEventListener("click", function () {
+          autoMode = !autoMode;
+          el.atoggle.setAttribute("aria-pressed", autoMode ? "true" : "false");
+          el.acap.textContent = autoMode ? "Auto an" : "Auto aus";
+        });
+
+        el.n.addEventListener("input", function () {
+          el.nVal.textContent = el.n.value;
+          el.message.classList.remove("show");
+          render();
+          finishMessage();
+        });
+        el.p.addEventListener("input", function () {
+          el.pVal.textContent = pText(parseFloat(el.p.value));
+          // Erwartungswert, Diagramm und Legende laufen live mit; alte Ergebnisse passen nicht mehr zu p
+          if (state.played > 0) onReset("p geändert: Die Ergebnisse wurden zurückgesetzt.");
+          else render();
+        });
+        [1, 2].forEach(function (k) {
+          $("sb" + k).addEventListener("click", function () {
+            var btn = $("sb" + k);
+            var on = btn.getAttribute("aria-pressed") === "true";
+            // mindestens eine Strategie muss aktiv bleiben
+            if (on && settings().active.length === 1) return;
+            btn.setAttribute("aria-pressed", on ? "false" : "true");
+            if (state.played > 0) onReset("Strategie geändert: Die Ergebnisse wurden zurückgesetzt.");
+            else {
+              showRows();
+              render();
+            }
+          });
+        });
+        window.addEventListener("resize", drawChart);
+
+        buildRows();
+        state = newState();
+        showRows();
+        render();
+      })();
+    </script>
+  </body>
+</html>
