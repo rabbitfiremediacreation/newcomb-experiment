@@ -48,3 +48,7 @@ Mit `--seed 42` sind die Zufallszahlen reproduzierbar.
 | `experiment.html` | Live-Experiment, auf Folie 8 eingebettet |
 | `newcomb_experiment.py` | Simulation mit einstellbarer Spielzahl und p |
 | `newcomb_vergleich.py` | Vergleichstabelle für mehrere p-Werte und Spielzahlen |
+
+## Lizenz
+
+MIT, siehe [LICENSE](LICENSE).
