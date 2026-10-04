@@ -35,10 +35,14 @@ Alle Folien und die Experiment-Seite gibt es auf **Deutsch und Englisch**. Der S
 Brauchen nur Python 3.
 
 ```bash
-python3 newcomb_experiment.py                       # fragt Spielzahl (10-1000) und p ab
-python3 newcomb_experiment.py --spiele 500 --p 0.7  # ohne Nachfragen
+python3 newcomb_experiment.py                       # fragt Sprache, Spielzahl (10-1000) und p ab
+python3 newcomb_experiment.py --spiele 500 --p 0.7  # ohne Nachfragen (Deutsch)
+python3 newcomb_experiment.py --games 500 --p 0.7 --lang en   # English output
 python3 newcomb_vergleich.py --wiederholungen 20    # Vergleichstabelle, schreibt eine CSV für Excel
+python3 newcomb_vergleich.py --repetitions 20 --lang en
 ```
+
+Beide Skripte sprechen **Deutsch und Englisch**: Mit `--lang de` oder `--lang en` wählst du die Sprache, ohne Angabe fragt das Skript im Terminal danach (Standard: Deutsch). Die Sprache ändert auch das Zahlenformat und die CSV (Deutsch: `;` und Komma, Englisch: `,` und Punkt).
 
 Mit `--seed 42` sind die Zufallszahlen reproduzierbar.
 
