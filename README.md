@@ -28,6 +28,8 @@ npm run dev
 
 Öffnet die HyperFrames-Präsentation (Standard: http://localhost:3004). Folie 8 enthält das Experiment mit einarmigem Banditen, Diagramm und Auswertung. Die Seite lässt sich auch direkt öffnen: `/composition/experiment.html`.
 
+Alle Folien und die Experiment-Seite gibt es auf **Deutsch und Englisch**. Der Schalter **DE | EN** sitzt oben rechts, die Wahl bleibt im Browser gespeichert und gilt auch für die eingebettete Experiment-Seite. Die Sprechernotizen sind nur deutsch.
+
 ## Python-Skripte
 
 Brauchen nur Python 3.

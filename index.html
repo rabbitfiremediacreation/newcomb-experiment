@@ -287,6 +287,31 @@
       .legend .muted {
         color: var(--muted);
       }
+      .langsw {
+        position: absolute;
+        right: 36px;
+        top: 16px;
+        z-index: 100;
+        display: flex;
+        border: 3px solid var(--line);
+        border-radius: 999px;
+        overflow: hidden;
+        background: rgba(11, 16, 32, 0.85);
+      }
+      .langsw button {
+        border: none;
+        background: transparent;
+        color: var(--muted);
+        font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+        font-size: 30px;
+        font-weight: 800;
+        padding: 6px 24px;
+        cursor: pointer;
+      }
+      .langsw button[aria-pressed="true"] {
+        background: var(--gold);
+        color: #1a1400;
+      }
       .gobtn {
         position: absolute;
         padding: 22px 52px;
@@ -439,7 +464,7 @@
             "hotspots": [
               {
                 "id": "h-dominanz",
-                "label": "Warum nicht einfach beide Boxen nehmen?",
+                "label": "Warum nicht beide Boxen? / Why not both?",
                 "target": "dominanz",
                 "region": { "x": 6, "y": 93, "w": 40, "h": 6 }
               }
@@ -461,7 +486,7 @@
             "hotspots": [
               {
                 "id": "h-grenze",
-                "label": "Ab welchem p lohnt sich 1-Box?",
+                "label": "Ab welchem p lohnt 1-Box? / When is 1-Box better?",
                 "target": "grenze",
                 "region": { "x": 6, "y": 92, "w": 40, "h": 6 }
               }
@@ -477,7 +502,7 @@
         "slideSequences": [
           {
             "id": "dominanz",
-            "label": "Das Dominanzargument",
+            "label": "Das Dominanzargument / The dominance argument",
             "slides": [
               {
                 "sceneId": "dominanz-1",
@@ -489,7 +514,7 @@
           },
           {
             "id": "grenze",
-            "label": "Break-even der Trefferquote",
+            "label": "Break-even der Trefferquote / Break-even hit rate",
             "slides": [
               {
                 "sceneId": "grenze-1",
@@ -523,16 +548,16 @@
       data-height="1080"
     >
       <section class="frame clip" data-start="0" data-duration="6" data-track-index="1">
-        <div class="kicker abs" id="hook-k" style="left: 120px; top: 250px">
+        <div class="kicker abs" id="hook-k" style="left: 120px; top: 250px" data-en="The game show: the Newcomb experiment">
           Die Spielshow: das Newcomb-Experiment
         </div>
-        <h1 class="abs" id="hook-h" style="left: 120px; top: 330px; width: 1600px">
+        <h1 class="abs" id="hook-h" style="left: 120px; top: 330px; width: 1600px" data-en="Can the game show read you before you choose?">
           Kann dich die Spielshow durchschauen, bevor du wählst?
         </h1>
-        <p class="sub abs" id="hook-s" style="left: 120px; top: 700px">
+        <p class="sub abs" id="hook-s" style="left: 120px; top: 700px" data-en="Two boxes, a predictor that tries to read you, and the expected value as referee.">
           Zwei Boxen, ein Prädiktor, der dich lesen will, und der Erwartungswert als Schiedsrichter.
         </p>
-        <button class="gobtn" id="hook-go" type="button" style="left: 120px; top: 900px">
+        <button class="gobtn" id="hook-go" type="button" style="left: 120px; top: 900px" data-en="Straight to the experiment →">
           Direkt zum Experiment →
         </button>
       </section>
@@ -549,8 +574,8 @@
       data-height="1080"
     >
       <section class="frame clip" data-start="6" data-duration="14" data-track-index="1">
-        <div class="kicker" id="bx-k">Aufbau</div>
-        <h2 id="bx-h">Du darfst wählen: nur Box A oder beide Boxen.</h2>
+        <div class="kicker" id="bx-k" data-en="Setup">Aufbau</div>
+        <h2 id="bx-h" data-en="You may choose: only Box A, or both boxes.">Du darfst wählen: nur Box A oder beide Boxen.</h2>
 
         <div class="box" id="bx-a" style="left: 200px">
           <svg viewBox="0 0 620 400">
@@ -559,7 +584,7 @@
             <text x="310" y="285" text-anchor="middle" font-size="150" font-weight="800" fill="#5aa9ff" font-family="system-ui, sans-serif">?</text>
           </svg>
           <div class="name">Box A</div>
-          <div class="cap">die Mystery-Box</div>
+          <div class="cap" data-en="the mystery box">die Mystery-Box</div>
         </div>
 
         <div class="box" id="bx-b" style="left: 1200px">
@@ -569,16 +594,16 @@
             <text x="310" y="270" text-anchor="middle" font-size="84" font-weight="800" fill="#ffc94a" font-family="system-ui, sans-serif">1.000 €</text>
           </svg>
           <div class="name">Box B</div>
-          <div class="cap">offen, enthält immer 1.000 €</div>
+          <div class="cap" data-en="open, always contains €1,000">offen, enthält immer 1.000 €</div>
         </div>
 
         <div class="choice" id="bx-c1" style="left: 120px">
           <div class="t gold">1-Box</div>
-          <div class="d">Du nimmst nur Box A.</div>
+          <div class="d" data-en="You take only Box A.">Du nimmst nur Box A.</div>
         </div>
         <div class="choice" id="bx-c2" style="left: 1000px">
           <div class="t gold">2-Box</div>
-          <div class="d">Du nimmst Box A und Box B.</div>
+          <div class="d" data-en="You take Box A and Box B.">Du nimmst Box A und Box B.</div>
         </div>
       </section>
     </div>
@@ -594,22 +619,22 @@
       data-height="1080"
     >
       <section class="frame clip" data-start="128" data-duration="14" data-track-index="1">
-        <div class="kicker" id="pa-k">Der Prädiktor der Show</div>
-        <h2 id="pa-h">Bevor du wählst, legt die Show den Inhalt von Box A fest.</h2>
+        <div class="kicker" id="pa-k" data-en="The show’s predictor">Der Prädiktor der Show</div>
+        <h2 id="pa-h" data-en="Before you choose, the show decides what goes into Box A.">Bevor du wählst, legt die Show den Inhalt von Box A fest.</h2>
 
         <div class="pa-row" id="pa-1" style="top: 340px">
-          <div class="pa-l"><div class="pa-small">Die Show tippt</div><div class="pa-big blue">1-Box</div></div>
+          <div class="pa-l"><div class="pa-small" data-en="The show guesses">Die Show tippt</div><div class="pa-big blue">1-Box</div></div>
           <div class="pa-arrow">→</div>
-          <div class="pa-r" style="border-color: #5fe0a0"><div class="pa-small">Dann legt sie in Box A</div><div class="pa-big gold">1.000.000 €</div></div>
+          <div class="pa-r" style="border-color: #5fe0a0"><div class="pa-small" data-en="Then Box A gets">Dann legt sie in Box A</div><div class="pa-big gold">1.000.000 €</div></div>
         </div>
         <div class="pa-row" id="pa-2" style="top: 570px">
-          <div class="pa-l"><div class="pa-small">Die Show tippt</div><div class="pa-big blue">2-Box</div></div>
+          <div class="pa-l"><div class="pa-small" data-en="The show guesses">Die Show tippt</div><div class="pa-big blue">2-Box</div></div>
           <div class="pa-arrow">→</div>
-          <div class="pa-r" style="border-color: #ff7385"><div class="pa-small">Dann bleibt Box A</div><div class="pa-big red">leer (0 €)</div></div>
+          <div class="pa-r" style="border-color: #ff7385"><div class="pa-small" data-en="Then Box A stays">Dann bleibt Box A</div><div class="pa-big red" data-en="empty (€0)">leer (0 €)</div></div>
         </div>
 
         <div class="card" id="pa-n" style="top: 800px; border-color: #ffc94a; padding: 22px 44px">
-          <div class="d" style="font-size: 42px">Die Show irrt sich manchmal. p ist ihre Trefferquote: Bei p = 0,7 tippt sie von 100 Kandidaten 70 richtig.</div>
+          <div class="d" style="font-size: 42px" data-en="The show is sometimes wrong. p is its hit rate: with p = 0.7 it guesses 70 of 100 contestants correctly.">Die Show irrt sich manchmal. p ist ihre Trefferquote: Bei p = 0,7 tippt sie von 100 Kandidaten 70 richtig.</div>
         </div>
       </section>
     </div>
@@ -625,24 +650,24 @@
       data-height="1080"
     >
       <section class="frame clip" data-start="20" data-duration="16" data-track-index="1">
-        <div class="kicker" id="ab-k">Ablauf</div>
-        <h2 id="ab-h">Der Prädiktor legt sich fest, bevor du wählst.</h2>
+        <div class="kicker" id="ab-k" data-en="Sequence">Ablauf</div>
+        <h2 id="ab-h" data-en="The predictor commits before you choose.">Der Prädiktor legt sich fest, bevor du wählst.</h2>
 
         <div class="step" id="ab-1" style="top: 290px">
           <div class="num">1</div>
-          <div><div class="t">Vorhersage</div><div class="d">Der Prädiktor tippt auf 1-Box oder 2-Box.</div></div>
+          <div><div class="t" data-en="Prediction">Vorhersage</div><div class="d" data-en="The predictor guesses 1-Box or 2-Box.">Der Prädiktor tippt auf 1-Box oder 2-Box.</div></div>
         </div>
         <div class="step" id="ab-2" style="top: 470px">
           <div class="num">2</div>
-          <div><div class="t">Befüllen</div><div class="d">Tippt er 1-Box, kommen 1.000.000 € in Box A.</div></div>
+          <div><div class="t" data-en="Filling">Befüllen</div><div class="d" data-en="If it guesses 1-Box, €1,000,000 goes into Box A.">Tippt er 1-Box, kommen 1.000.000 € in Box A.</div></div>
         </div>
         <div class="step" id="ab-3" style="top: 650px">
           <div class="num">3</div>
-          <div><div class="t">Deine Wahl</div><div class="d">Du nimmst nur Box A oder beide Boxen.</div></div>
+          <div><div class="t" data-en="Your choice">Deine Wahl</div><div class="d" data-en="You take only Box A, or both boxes.">Du nimmst nur Box A oder beide Boxen.</div></div>
         </div>
         <div class="step" id="ab-4" style="top: 830px">
           <div class="num">4</div>
-          <div><div class="t">Auszahlung</div><div class="d">Du erhältst den Inhalt der gewählten Boxen.</div></div>
+          <div><div class="t" data-en="Payout">Auszahlung</div><div class="d" data-en="You get the contents of the boxes you chose.">Du erhältst den Inhalt der gewählten Boxen.</div></div>
         </div>
       </section>
     </div>
@@ -658,24 +683,24 @@
       data-height="1080"
     >
       <section class="frame clip" data-start="36" data-duration="14" data-track-index="1">
-        <div class="kicker" id="mx-k">Auszahlung</div>
-        <h2 id="mx-h">Dein Gewinn hängt von deiner Wahl und der Vorhersage ab.</h2>
+        <div class="kicker" id="mx-k" data-en="Payout">Auszahlung</div>
+        <h2 id="mx-h" data-en="Your winnings depend on your choice and on the prediction.">Dein Gewinn hängt von deiner Wahl und der Vorhersage ab.</h2>
 
-        <div class="colh" id="mx-c1" style="left: 660px">Du wählst 1-Box</div>
-        <div class="colh" id="mx-c2" style="left: 1240px">Du wählst 2-Box</div>
+        <div class="colh" id="mx-c1" style="left: 660px" data-en="You choose 1-Box">Du wählst 1-Box</div>
+        <div class="colh" id="mx-c2" style="left: 1240px" data-en="You choose 2-Box">Du wählst 2-Box</div>
 
-        <div class="rowh" id="mx-r1" style="top: 380px">Prädiktor tippte 1-Box<small>Box A ist gefüllt</small></div>
-        <div class="cell" id="mx-11" style="left: 660px; top: 380px"><div class="v gold">1.000.000 €</div><div class="b green" id="mx-11b">Vorhersage richtig (p)</div></div>
-        <div class="cell" id="mx-12" style="left: 1240px; top: 380px"><div class="v gold">1.001.000 €</div><div class="b red" id="mx-12b">Vorhersage falsch (1 − p)</div></div>
+        <div class="rowh" id="mx-r1" style="top: 380px" data-en="Prediction: 1-Box<small>Box A is filled</small>">Prädiktor tippte 1-Box<small>Box A ist gefüllt</small></div>
+        <div class="cell" id="mx-11" style="left: 660px; top: 380px"><div class="v gold">1.000.000 €</div><div class="b green" id="mx-11b" data-en="Prediction correct (p)">Vorhersage richtig (p)</div></div>
+        <div class="cell" id="mx-12" style="left: 1240px; top: 380px"><div class="v gold">1.001.000 €</div><div class="b red" id="mx-12b" data-en="Prediction wrong (1 − p)">Vorhersage falsch (1 − p)</div></div>
 
-        <div class="rowh" id="mx-r2" style="top: 620px">Prädiktor tippte 2-Box<small>Box A ist leer</small></div>
-        <div class="cell" id="mx-21" style="left: 660px; top: 620px"><div class="v gold">0 €</div><div class="b red" id="mx-21b">Vorhersage falsch (1 − p)</div></div>
-        <div class="cell" id="mx-22" style="left: 1240px; top: 620px"><div class="v gold">1.000 €</div><div class="b green" id="mx-22b">Vorhersage richtig (p)</div></div>
+        <div class="rowh" id="mx-r2" style="top: 620px" data-en="Prediction: 2-Box<small>Box A is empty</small>">Prädiktor tippte 2-Box<small>Box A ist leer</small></div>
+        <div class="cell" id="mx-21" style="left: 660px; top: 620px"><div class="v gold">0 €</div><div class="b red" id="mx-21b" data-en="Prediction wrong (1 − p)">Vorhersage falsch (1 − p)</div></div>
+        <div class="cell" id="mx-22" style="left: 1240px; top: 620px"><div class="v gold">1.000 €</div><div class="b green" id="mx-22b" data-en="Prediction correct (p)">Vorhersage richtig (p)</div></div>
 
         <div class="legend" id="mx-leg" style="top: 860px">
-          <div><span class="green">Treffer:</span> Der Prädiktor hat richtig getippt (Wahrscheinlichkeit p).</div>
-          <div><span class="red">Fehler:</span> Er hat sich geirrt (Wahrscheinlichkeit 1 − p).</div>
-          <div class="muted">Beispiel p = 0,7: 70 von 100 Vorhersagen stimmen, 30 nicht.</div>
+          <div data-en="<span class=&quot;green&quot;>Hit:</span> The predictor guessed right (probability p)."><span class="green">Treffer:</span> Der Prädiktor hat richtig getippt (Wahrscheinlichkeit p).</div>
+          <div data-en="<span class=&quot;red&quot;>Miss:</span> It guessed wrong (probability 1 − p)."><span class="red">Fehler:</span> Er hat sich geirrt (Wahrscheinlichkeit 1 − p).</div>
+          <div class="muted" data-en="Example p = 0.7: 70 of 100 predictions are right, 30 are not.">Beispiel p = 0,7: 70 von 100 Vorhersagen stimmen, 30 nicht.</div>
         </div>
       </section>
     </div>
@@ -691,9 +716,9 @@
       data-height="1080"
     >
       <section class="frame clip" data-start="108" data-duration="20" data-track-index="1">
-        <div class="kicker" id="bs-k">Beispiel mit p = 0,7</div>
-        <h2 id="bs-h">Bei p = 0,7 liegt der Prädiktor in 7 von 10 Spielen richtig.</h2>
-        <div class="sub abs" id="bs-s" style="left: 120px; top: 300px; margin-top: 0; font-size: 44px">
+        <div class="kicker" id="bs-k" data-en="Example with p = 0.7">Beispiel mit p = 0,7</div>
+        <h2 id="bs-h" data-en="With p = 0.7 the predictor is right in 7 of 10 games.">Bei p = 0,7 liegt der Prädiktor in 7 von 10 Spielen richtig.</h2>
+        <div class="sub abs" id="bs-s" style="left: 120px; top: 300px; margin-top: 0; font-size: 44px" data-en="In all 10 games you take only Box A (1-Box).">
           Du wählst in allen 10 Spielen nur Box A (1-Box).
         </div>
 
@@ -707,14 +732,14 @@
         <div class="tile" id="bs-t8" style="left: 1310px"><div class="q">?</div><div class="v miss">0 €</div></div>
         <div class="tile" id="bs-t9" style="left: 1480px"><div class="q">?</div><div class="v miss">0 €</div></div>
         <div class="tile" id="bs-t10" style="left: 1650px"><div class="q">?</div><div class="v miss">0 €</div></div>
-        <div class="abs green" id="bs-l1" style="left: 120px; top: 560px; font-size: 44px; font-weight: 800">7 Treffer: Box A gefüllt</div>
-        <div class="abs red" id="bs-l2" style="left: 1310px; top: 560px; font-size: 44px; font-weight: 800">3 Fehler: Box A leer</div>
+        <div class="abs green" id="bs-l1" style="left: 120px; top: 560px; font-size: 44px; font-weight: 800" data-en="7 hits: Box A filled">7 Treffer: Box A gefüllt</div>
+        <div class="abs red" id="bs-l2" style="left: 1310px; top: 560px; font-size: 44px; font-weight: 800" data-en="3 misses: Box A empty">3 Fehler: Box A leer</div>
 
         <div class="sumline mono" id="bs-sum1" style="top: 690px">
           7 × 1.000.000 € + 3 × 0 € = 7.000.000 € <span class="gold">→ Ø 700.000 €</span>
         </div>
         <div class="sumline mono" id="bs-sum2" style="top: 790px; font-size: 40px">
-          <span class="muted" style="color: var(--muted)">2-Box, gleiche Spiele:</span><br />
+          <span class="muted" style="color: var(--muted)" data-en="2-Box, same games:">2-Box, gleiche Spiele:</span><br />
           7 × 1.000 € + 3 × 1.001.000 € = 3.010.000 € <span class="gold">→ Ø 301.000 €</span>
         </div>
       </section>
@@ -731,8 +756,8 @@
       data-height="1080"
     >
       <section class="frame clip" data-start="50" data-duration="28" data-track-index="1">
-        <div class="kicker" id="ew-k">Erwartungswert</div>
-        <h2 id="ew-h">Der Erwartungswert vergleicht beide Strategien.</h2>
+        <div class="kicker" id="ew-k" data-en="Expected value">Erwartungswert</div>
+        <h2 id="ew-h" data-en="The expected value compares both strategies.">Der Erwartungswert vergleicht beide Strategien.</h2>
 
         <div class="formula mono" id="ew-f1" style="top: 300px">
           E(1-Box) = <span class="gold">1.000.000</span> · p + 0 · (1 − p)
@@ -761,20 +786,20 @@
       data-height="1080"
     >
       <section class="frame clip" data-start="84" data-duration="12" data-track-index="1">
-        <div class="kicker" id="dm-k">Abzweig: Dominanz</div>
-        <h2 id="dm-h">Bei festem Boxinhalt bringt 2-Box immer 1.000 € mehr.</h2>
+        <div class="kicker" id="dm-k" data-en="Side path: dominance">Abzweig: Dominanz</div>
+        <h2 id="dm-h" data-en="With fixed box contents, 2-Box always pays €1,000 more.">Bei festem Boxinhalt bringt 2-Box immer 1.000 € mehr.</h2>
 
         <div class="card" id="dm-1" style="top: 380px">
-          <div class="t">Box A gefüllt</div>
+          <div class="t" data-en="Box A filled">Box A gefüllt</div>
           <div class="d">1-Box: 1.000.000 € | 2-Box: <span class="green">1.001.000 €</span></div>
         </div>
         <div class="card" id="dm-2" style="top: 590px">
-          <div class="t">Box A leer</div>
+          <div class="t" data-en="Box A empty">Box A leer</div>
           <div class="d">1-Box: 0 € | 2-Box: <span class="green">1.000 €</span></div>
         </div>
         <div class="card" id="dm-3" style="top: 800px; border-color: #ffc94a">
-          <div class="t gold">Das Paradox</div>
-          <div class="d">Ist p groß, gewinnen 1-Boxer im Schnitt trotzdem mehr.</div>
+          <div class="t gold" data-en="The paradox">Das Paradox</div>
+          <div class="d" data-en="If p is large, 1-Boxers still win more on average.">Ist p groß, gewinnen 1-Boxer im Schnitt trotzdem mehr.</div>
         </div>
       </section>
     </div>
@@ -790,8 +815,8 @@
       data-height="1080"
     >
       <section class="frame clip" data-start="96" data-duration="12" data-track-index="1">
-        <div class="kicker" id="gr-k">Abzweig: Break-even</div>
-        <h2 id="gr-h">Ab einer Trefferquote von p &gt; 0,5005 lohnt sich 1-Box im Schnitt.</h2>
+        <div class="kicker" id="gr-k" data-en="Side path: break-even">Abzweig: Break-even</div>
+        <h2 id="gr-h" data-en="From a hit rate of p &gt; 0.5005, 1-Box pays more on average.">Ab einer Trefferquote von p &gt; 0,5005 lohnt sich 1-Box im Schnitt.</h2>
 
         <div class="formula mono" id="gr-1" style="top: 400px; font-size: 56px">
           E(1-Box) &gt; E(2-Box)
@@ -819,7 +844,7 @@
       data-height="1080"
     >
       <section class="frame clip" data-start="142" data-duration="14" data-track-index="1" style="padding: 28px 120px">
-        <h2 id="lv-h" style="font-size: 54px; max-width: none">Newcomb-Experiment</h2>
+        <h2 id="lv-h" style="font-size: 54px; max-width: none" data-en="Newcomb Experiment">Newcomb-Experiment</h2>
         <iframe
           id="lv-frame"
           src="experiment.html?embed=1"
@@ -827,6 +852,11 @@
           style="position: absolute; left: 60px; top: 104px; width: 1800px; height: 966px; border: 3px solid #2a3557; border-radius: 20px; background: #0b1020"
         ></iframe>
       </section>
+    </div>
+
+    <div class="langsw" id="langsw" role="group" aria-label="Sprache / Language">
+      <button type="button" data-lang="de" aria-pressed="true">DE</button>
+      <button type="button" data-lang="en" aria-pressed="false">EN</button>
     </div>
 
     </div>
@@ -838,6 +868,60 @@
           window.parent.document.querySelector("hyperframes-slideshow").controller.goToSlide(7);
         } catch (e) {}
       });
+
+      // ---------- Sprache Deutsch / Englisch ----------
+      // Deutsche Texte stehen im HTML, englische als data-en. Zahlen werden automatisch umgerechnet
+      // (1.000.000 € -> €1,000,000, 0,7 -> 0.7, Ø -> avg.).
+      var LANG_KEY = "newcomb-lang";
+      var deckLang = "de";
+      function enNumbers(v) {
+        return v
+          .replace(/(\d),(\d)/g, "$1.$2")
+          .replace(/\b(\d{1,3}(?:\.\d{3})+)\b/g, function (m) {
+            return m.replace(/\./g, ",");
+          })
+          .replace(/(\d+)\s*Mio\./g, "€$1M")
+          .replace(/(\d[\d,]*)\s€/g, "€$1")
+          .replace(/Ø/g, "avg.");
+      }
+      function applyDeckLang(l, persist) {
+        deckLang = l === "en" ? "en" : "de";
+        if (persist) {
+          try {
+            localStorage.setItem(LANG_KEY, deckLang);
+          } catch (e) {}
+        }
+        document.documentElement.lang = deckLang;
+        Array.prototype.forEach.call(document.querySelectorAll("[data-en]"), function (e) {
+          if (e.getAttribute("data-de") === null) e.setAttribute("data-de", e.innerHTML);
+          e.innerHTML = deckLang === "en" ? e.getAttribute("data-en") : e.getAttribute("data-de");
+        });
+        var walker = document.createTreeWalker(document.getElementById("root"), NodeFilter.SHOW_TEXT, null);
+        var nodes = [];
+        var n;
+        while ((n = walker.nextNode())) nodes.push(n);
+        nodes.forEach(function (tn) {
+          var pe = tn.parentElement;
+          if (!pe || pe.closest("[data-en], .langsw, script, style")) return;
+          if (tn.__de === undefined) tn.__de = tn.nodeValue;
+          tn.nodeValue = deckLang === "en" ? enNumbers(tn.__de) : tn.__de;
+        });
+        Array.prototype.forEach.call(document.querySelectorAll(".langsw button"), function (b) {
+          b.setAttribute("aria-pressed", b.getAttribute("data-lang") === deckLang ? "true" : "false");
+        });
+        try {
+          document.getElementById("lv-frame").contentWindow.setLang(deckLang);
+        } catch (e) {}
+      }
+      Array.prototype.forEach.call(document.querySelectorAll(".langsw button"), function (b) {
+        b.addEventListener("click", function () {
+          applyDeckLang(b.getAttribute("data-lang"), true);
+        });
+      });
+      window.addEventListener("storage", function (e) {
+        if (e.key === LANG_KEY && e.newValue) applyDeckLang(e.newValue, false);
+      });
+
       window.__timelines = window.__timelines || {};
       var root = gsap.timeline({ paused: true });
       root.to({}, { duration: 156 }, 0);
@@ -1000,6 +1084,12 @@
       show(tb2, "#gr-2", 98.0, -60);
       show(tb2, "#gr-3", 99.0, -60);
       show(tb2, "#gr-4", 100.0, -60);
+
+      var startLangDeck = "de";
+      try {
+        startLangDeck = localStorage.getItem(LANG_KEY) || "de";
+      } catch (e) {}
+      applyDeckLang(startLangDeck, false);
     </script>
   </body>
 </html>

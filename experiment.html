@@ -685,6 +685,30 @@
       .embed #statsPanel {
         margin-top: 10px !important;
       }
+      header .hright {
+        display: flex;
+        align-items: center;
+        gap: 18px;
+      }
+      .langsw {
+        display: inline-flex;
+        border: 2px solid var(--line);
+        border-radius: 999px;
+        overflow: hidden;
+      }
+      .langsw button {
+        border: none;
+        border-radius: 0;
+        background: transparent;
+        color: var(--muted);
+        padding: 6px 16px;
+        font-weight: 800;
+        font-size: 16px;
+      }
+      .langsw button[aria-pressed="true"] {
+        background: var(--gold);
+        color: #1a1400;
+      }
       .msgnote {
         color: var(--muted);
         font-size: 15px;
@@ -696,10 +720,16 @@
   <body>
     <div class="wrap">
       <header>
-        <h1>Newcomb-<span>Experiment</span> live</h1>
-        <a href="/">← zurück zur Präsentation</a>
+        <h1 data-i18n="h1">Newcomb-<span>Experiment</span> live</h1>
+        <div class="hright">
+          <a href="/" data-i18n="back">← zurück zur Präsentation</a>
+          <div class="langsw" role="group" aria-label="Sprache / Language">
+            <button type="button" data-lang="de" aria-pressed="true">DE</button>
+            <button type="button" data-lang="en" aria-pressed="false">EN</button>
+          </div>
+        </div>
       </header>
-      <p class="intro">
+      <p class="intro" data-i18n="intro">
         Du bist Kandidat in einer Spielshow und spielst gegen die Show. Ihr Prädiktor versucht dich zu durchschauen:
         Er tippt vorher, ob du nur Box A oder beide Boxen nimmst, und liegt mit Wahrscheinlichkeit p richtig.
         Box B ist offen und enthält immer 1.000 €. Box A ist die Mystery-Box: Sie enthält 1.000.000 €, aber nur,
@@ -707,30 +737,30 @@
       </p>
 
       <section class="panel" aria-label="Einstellungen">
-        <h2>Einstellungen</h2>
+        <h2 data-i18n="settings">Einstellungen</h2>
         <div class="controls">
           <div class="ctl">
-            <label for="n">Spiele pro Strategie: <span class="val" id="nVal">100</span></label>
+            <label for="n"><span data-i18n="gamesLbl">Spiele pro Strategie:</span> <span class="val" id="nVal">100</span></label>
             <input id="n" type="range" min="10" max="1000" step="10" value="100" />
-            <div class="hint">von 10 bis 1000</div>
+            <div class="hint" data-i18n="gamesHint">von 10 bis 1000</div>
           </div>
           <div class="ctl">
-            <label for="p">Trefferquote p: <span class="val" id="pVal">0,70</span></label>
+            <label for="p"><span data-i18n="pLbl">Trefferquote p:</span> <span class="val" id="pVal">0,70</span></label>
             <input id="p" type="range" min="0" max="1" step="0.01" value="0.7" />
-            <div class="hint">so oft liegt der Prädiktor richtig</div>
+            <div class="hint" data-i18n="pHint">so oft liegt der Prädiktor richtig</div>
             <div class="theory" id="pTheory"></div>
           </div>
           <div class="ctl">
-            <span class="lbl">Strategie</span>
+            <span class="lbl" data-i18n="strategy">Strategie</span>
             <div class="sbtns" role="group" aria-label="Strategie wählen">
               <button type="button" class="sbtn s1" id="sb1" aria-pressed="true">
-                <span class="sn">1-Box</span><span class="ss">nur Box A</span>
+                <span class="sn">1-Box</span><span class="ss" data-i18n="s1sub">nur Box A</span>
               </button>
               <button type="button" class="sbtn s2" id="sb2" aria-pressed="false">
-                <span class="sn">2-Box</span><span class="ss">Box A und Box B</span>
+                <span class="sn">2-Box</span><span class="ss" data-i18n="s2sub">Box A und Box B</span>
               </button>
             </div>
-            <div class="hint">Beide aktivieren, um sie zu vergleichen</div>
+            <div class="hint" data-i18n="stratHint">Beide aktivieren, um sie zu vergleichen</div>
           </div>
         </div>
         <div class="progress" aria-live="polite">
@@ -742,14 +772,14 @@
 
       <div class="grid">
         <section class="panel" aria-label="Einarmiger Bandit">
-          <h2>Der Bandit</h2>
+          <h2 data-i18n="bandit">Der Bandit</h2>
           <div class="machine">
             <div class="body">
-              <div class="marquee">★ NEWCOMB-BANDIT ★</div>
+              <div class="marquee" data-i18n="marquee">★ NEWCOMB-BANDIT ★</div>
               <div id="rows"></div>
             </div>
             <div class="leverwrap">
-              <button class="atoggle" id="atoggle" type="button" aria-pressed="false" title="Automatik ein- oder ausschalten">A</button>
+              <button class="atoggle" id="atoggle" type="button" aria-pressed="false" title="Automatik ein- oder ausschalten" data-i18n-title="autoTitle">A</button>
               <div class="acap" id="acap">Auto aus</div>
               <button class="lever" id="lever" type="button" aria-label="Hebel ziehen">
                 <div class="track">
@@ -763,7 +793,7 @@
         </section>
 
         <section class="panel" aria-label="Diagramm">
-          <h2>Durchschnittsgewinn</h2>
+          <h2 data-i18n="avgGain">Durchschnittsgewinn</h2>
           <canvas id="chart" role="img" aria-label="Verlauf des Durchschnittsgewinns pro Spiel"></canvas>
           <div class="legend" id="legend"></div>
         </section>
@@ -772,17 +802,17 @@
       <div class="message" id="message" role="status"></div>
 
       <section class="panel" id="statsPanel" style="margin-top: 18px" aria-label="Auswertung">
-        <h2>Auswertung</h2>
+        <h2 data-i18n="evaluation">Auswertung</h2>
         <div class="tablewrap">
           <table>
             <thead>
               <tr>
-                <th>Strategie</th>
-                <th>Spiele</th>
-                <th>Treffer des Prädiktors</th>
-                <th>Ø Gewinn (Simulation)</th>
-                <th>Ø Gewinn (Theorie)</th>
-                <th>Abweichung</th>
+                <th data-i18n="thStrategy">Strategie</th>
+                <th data-i18n="thGames">Spiele</th>
+                <th data-i18n="thHits">Treffer des Prädiktors</th>
+                <th data-i18n="thSim">Ø Gewinn (Simulation)</th>
+                <th data-i18n="thTheory">Ø Gewinn (Theorie)</th>
+                <th data-i18n="thDev">Abweichung</th>
               </tr>
             </thead>
             <tbody id="stats"></tbody>
@@ -791,17 +821,17 @@
       </section>
 
       <section class="panel" id="logPanel" style="margin-top: 18px" aria-label="Letzte Spiele">
-        <h2>Die letzten Spiele</h2>
+        <h2 data-i18n="lastGames">Die letzten Spiele</h2>
         <div class="tablewrap">
           <table>
             <thead>
               <tr>
-                <th>Spiel</th>
-                <th>Strategie</th>
-                <th>Prädiktor tippte</th>
-                <th>Treffer?</th>
-                <th>Box A enthielt</th>
-                <th>Gewinn</th>
+                <th data-i18n="lgGame">Spiel</th>
+                <th data-i18n="thStrategy">Strategie</th>
+                <th data-i18n="lgTip">Prädiktor tippte</th>
+                <th data-i18n="lgHit">Treffer?</th>
+                <th data-i18n="lgBoxA">Box A enthielt</th>
+                <th data-i18n="lgGain">Gewinn</th>
               </tr>
             </thead>
             <tbody id="log"></tbody>
@@ -817,13 +847,186 @@
         var BOX_B = 1000; // offene Box
         var NAMES = { 1: "1-Box", 2: "2-Box" };
         var COLORS = { 1: "#5aa9ff", 2: "#ffc94a" };
-        var fmt = new Intl.NumberFormat("de-DE", { maximumFractionDigits: 0 });
+        var LANG_KEY = "newcomb-lang";
+        var lang = "de";
 
+        // ---------- Texte Deutsch / Englisch ----------
+        var T = {
+          de: {
+            title: "Newcomb-Experiment live",
+            h1: "Newcomb-<span>Experiment</span> live",
+            back: "← zurück zur Präsentation",
+            intro:
+              "Du bist Kandidat in einer Spielshow und spielst gegen die Show. Ihr Prädiktor versucht dich zu durchschauen: " +
+              "Er tippt vorher, ob du nur Box A oder beide Boxen nimmst, und liegt mit Wahrscheinlichkeit p richtig. " +
+              "Box B ist offen und enthält immer 1.000 €. Box A ist die Mystery-Box: Sie enthält 1.000.000 €, aber nur, " +
+              "wenn der Prädiktor „1-Box“ getippt hat, sonst ist sie leer. Stelle Spielzahl und p ein und ziehe den Hebel. " +
+              "Mit dem Knopf A über dem Hebel schaltest du die Automatik ein: Dann spielt ein Zug alle Spiele durch.",
+            settings: "Einstellungen",
+            gamesLbl: "Spiele pro Strategie:",
+            gamesHint: "von 10 bis 1000",
+            pLbl: "Trefferquote p:",
+            pHint: "so oft liegt der Prädiktor richtig",
+            strategy: "Strategie",
+            s1sub: "nur Box A",
+            s2sub: "Box A und Box B",
+            stratHint: "Beide aktivieren, um sie zu vergleichen",
+            bandit: "Der Bandit",
+            marquee: "★ NEWCOMB-BANDIT ★",
+            autoTitle: "Automatik ein- oder ausschalten",
+            avgGain: "Durchschnittsgewinn",
+            evaluation: "Auswertung",
+            thStrategy: "Strategie",
+            thGames: "Spiele",
+            thHits: "Treffer des Prädiktors",
+            thSim: "Ø Gewinn (Simulation)",
+            thTheory: "Ø Gewinn (Theorie)",
+            thDev: "Abweichung",
+            lastGames: "Die letzten Spiele",
+            lgGame: "Spiel",
+            lgTip: "Prädiktor tippte",
+            lgHit: "Treffer?",
+            lgBoxA: "Box A enthielt",
+            lgGain: "Gewinn",
+            take1: "du nimmst nur Box A",
+            take2: "du nimmst Box A und Box B",
+            capTip: "Prädiktor tippt",
+            capBox: "Box A enthält",
+            capGain: "Dein Gewinn",
+            empty: "leer",
+            badgeHit: "✔ Prädiktor hatte Recht",
+            badgeMiss: "✘ Prädiktor hat sich geirrt",
+            progress: function (a, n) {
+              return a + " von " + n + " Spielen gespielt";
+            },
+            yes: "ja",
+            no: "nein",
+            noGames: "Noch kein Spiel gespielt.",
+            legendSim: "(Simulation)",
+            legendTheory: "Theorie:",
+            axis: "Anzahl Spiele",
+            avg: "Ø",
+            theoryHead: function (p) {
+              return "Erwartungswert bei p = " + p + " (Theorie)";
+            },
+            stop: "STOPP",
+            pull: "ZIEHEN",
+            autoOn: "Auto an",
+            autoOff: "Auto aus",
+            noteP: "p geändert: Die Ergebnisse wurden zurückgesetzt.",
+            noteS: "Strategie geändert: Die Ergebnisse wurden zurückgesetzt.",
+            finish: function (n, p) {
+              return "<strong>Fertig nach " + n + " Spielen bei p = " + p + ".</strong>";
+            },
+            partTheory: "Theorie",
+            resRun: "Dieser Durchlauf",
+            resBetter: "war besser",
+            resTheory: "Theorie",
+            resIsBetter: "ist besser",
+            deviates:
+              "Der Durchlauf weicht hier von der Theorie ab. Das ist Zufall, besonders wenn p nahe bei 0,5 liegt und die Erwartungswerte fast gleich sind.",
+            resAvg: "Durchschnitt",
+            resSimNote: "(Simulation)",
+            resExpNote: "(Erwartungswert)",
+          },
+          en: {
+            title: "Newcomb Experiment Live",
+            h1: "Newcomb <span>Experiment</span> live",
+            back: "← back to the presentation",
+            intro:
+              "You are a contestant on a game show, playing against the show. Its predictor tries to read you: " +
+              "it guesses beforehand whether you will take only Box A or both boxes, and it is right with probability p. " +
+              "Box B is open and always contains €1,000. Box A is the mystery box: it contains €1,000,000, but only if " +
+              "the predictor guessed “1-Box”; otherwise it is empty. Set the number of games and p, then pull the lever. " +
+              "With the A button above the lever you switch on automatic mode: then a single pull plays all the games.",
+            settings: "Settings",
+            gamesLbl: "Games per strategy:",
+            gamesHint: "from 10 to 1000",
+            pLbl: "Hit rate p:",
+            pHint: "how often the predictor is right",
+            strategy: "Strategy",
+            s1sub: "only Box A",
+            s2sub: "Box A and Box B",
+            stratHint: "Activate both to compare them",
+            bandit: "The slot machine",
+            marquee: "★ NEWCOMB BANDIT ★",
+            autoTitle: "Switch automatic mode on or off",
+            avgGain: "Average winnings",
+            evaluation: "Results",
+            thStrategy: "Strategy",
+            thGames: "Games",
+            thHits: "Predictor’s hits",
+            thSim: "Avg. winnings (simulation)",
+            thTheory: "Avg. winnings (theory)",
+            thDev: "Deviation",
+            lastGames: "Latest games",
+            lgGame: "Game",
+            lgTip: "Predictor guessed",
+            lgHit: "Hit?",
+            lgBoxA: "Box A contained",
+            lgGain: "Winnings",
+            take1: "you take only Box A",
+            take2: "you take Box A and Box B",
+            capTip: "Predictor guesses",
+            capBox: "Box A contains",
+            capGain: "Your winnings",
+            empty: "empty",
+            badgeHit: "✔ Predictor was right",
+            badgeMiss: "✘ Predictor was wrong",
+            progress: function (a, n) {
+              return a + " of " + n + " games played";
+            },
+            yes: "yes",
+            no: "no",
+            noGames: "No game played yet.",
+            legendSim: "(simulation)",
+            legendTheory: "Theory:",
+            axis: "Number of games",
+            avg: "avg.",
+            theoryHead: function (p) {
+              return "Expected value at p = " + p + " (theory)";
+            },
+            stop: "STOP",
+            pull: "PULL",
+            autoOn: "Auto on",
+            autoOff: "Auto off",
+            noteP: "p changed: the results were reset.",
+            noteS: "Strategy changed: the results were reset.",
+            finish: function (n, p) {
+              return "<strong>Done after " + n + " games at p = " + p + ".</strong>";
+            },
+            partTheory: "theory",
+            resRun: "This run",
+            resBetter: "was better",
+            resTheory: "Theory",
+            resIsBetter: "is better",
+            deviates:
+              "This run differs from the theory here. That is chance, especially when p is close to 0.5 and the expected values are almost equal.",
+            resAvg: "Average",
+            resSimNote: "(simulation)",
+            resExpNote: "(expected value)",
+          },
+        };
+        function t(k) {
+          var v = T[lang][k];
+          if (typeof v === "function") return v.apply(null, Array.prototype.slice.call(arguments, 1));
+          return v;
+        }
+
+        var fmtDe = new Intl.NumberFormat("de-DE", { maximumFractionDigits: 0 });
+        var fmtEn = new Intl.NumberFormat("en-US", { maximumFractionDigits: 0 });
+        function num(x) {
+          return (lang === "en" ? fmtEn : fmtDe).format(Math.round(x));
+        }
         function euro(x) {
-          return fmt.format(Math.round(x)) + " €";
+          return lang === "en" ? "€" + num(x) : num(x) + " €";
+        }
+        function dec(x, d) {
+          var s = x.toFixed(d);
+          return lang === "en" ? s : s.replace(".", ",");
         }
         function pText(p) {
-          return p.toFixed(2).replace(".", ",");
+          return dec(p, 2);
         }
         function $(id) {
           return document.getElementById(id);
@@ -861,6 +1064,8 @@
         var busy = false;
         var auto = false;
         var autoMode = false; // Schalter "A": Standard aus
+        var lastRes = {}; // letztes Ergebnis je Strategie (für Sprachwechsel)
+        var noteKey = ""; // aktuelle Hinweis-Meldung
 
         function newState() {
           return {
@@ -917,13 +1122,11 @@
             d.innerHTML =
               '<div class="rowlabel">' +
               NAMES[s] +
-              " <small>" +
-              (s === 1 ? "du nimmst nur Box A" : "du nimmst Box A und Box B") +
-              "</small></div>" +
+              ' <small data-i18n="' + (s === 1 ? "take1" : "take2") + '"></small></div>' +
               '<div class="reels">' +
-              '<div class="reel"><div class="cap">Prädiktor tippt</div><div class="sym" id="tip' + s + '">?</div></div>' +
-              '<div class="reel"><div class="cap">Box A enthält</div><div class="sym" id="box' + s + '">?</div></div>' +
-              '<div class="reel"><div class="cap">Dein Gewinn</div><div class="sym" id="gain' + s + '">?</div></div>' +
+              '<div class="reel"><div class="cap" data-i18n="capTip"></div><div class="sym" id="tip' + s + '">?</div></div>' +
+              '<div class="reel"><div class="cap" data-i18n="capBox"></div><div class="sym" id="box' + s + '">?</div></div>' +
+              '<div class="reel"><div class="cap" data-i18n="capGain"></div><div class="sym" id="gain' + s + '">?</div></div>' +
               "</div>" +
               '<div class="badge" id="badge' + s + '"></div>';
             el.rows.appendChild(d);
@@ -943,7 +1146,12 @@
           e.textContent = text;
         }
 
+        function boxText(r) {
+          return r.boxA > 0 ? euro(r.boxA) : t("empty");
+        }
+
         function resetReels() {
+          lastRes = {};
           [1, 2].forEach(function (s) {
             setSym("tip" + s, "?");
             setSym("box" + s, "?");
@@ -955,11 +1163,12 @@
 
         function finalReels(r) {
           var s = r.s;
+          lastRes[s] = r;
           setSym("tip" + s, NAMES[r.tip], "c-blue pop");
-          setSym("box" + s, r.boxA > 0 ? euro(r.boxA) : "leer", r.boxA > 0 ? "c-green pop" : "c-red pop");
+          setSym("box" + s, boxText(r), r.boxA > 0 ? "c-green pop" : "c-red pop");
           setSym("gain" + s, euro(r.gain), "c-gold pop");
           var b = $("badge" + s);
-          b.textContent = r.right ? "✔ Prädiktor hatte Recht" : "✘ Prädiktor hat sich geirrt";
+          b.textContent = r.right ? t("badgeHit") : t("badgeMiss");
           b.className = "badge " + (r.right ? "hit" : "miss");
         }
 
@@ -968,7 +1177,7 @@
             return NAMES[1 + Math.floor(Math.random() * 2)];
           },
           box: function () {
-            return Math.random() < 0.5 ? euro(BOX_A) : "leer";
+            return Math.random() < 0.5 ? euro(BOX_A) : t("empty");
           },
           gain: function () {
             return euro([0, BOX_B, BOX_A, BOX_A + BOX_B][Math.floor(Math.random() * 4)]);
@@ -977,11 +1186,11 @@
 
         function spinOne(kind, s, stopAfter, done) {
           var id = kind + s;
-          var t = setInterval(function () {
+          var tm = setInterval(function () {
             setSym(id, POOLS[kind](), "spin");
           }, 70);
           return sleep(stopAfter).then(function () {
-            clearInterval(t);
+            clearInterval(tm);
             done();
           });
         }
@@ -999,7 +1208,7 @@
           });
           var p2 = spinOne("box", s, 1000, function () {
             if (stopped()) return;
-            setSym("box" + s, r.boxA > 0 ? euro(r.boxA) : "leer", r.boxA > 0 ? "c-green pop" : "c-red pop");
+            setSym("box" + s, boxText(r), r.boxA > 0 ? "c-green pop" : "c-red pop");
           });
           var p3 = spinOne("gain", s, 1400, function () {
             if (stopped()) return;
@@ -1018,7 +1227,7 @@
         // ---------- Anzeige ----------
         function renderProgress() {
           var n = settings().n;
-          el.progText.textContent = state.played + " von " + n + " Spielen gespielt";
+          el.progText.textContent = t("progress", state.played, n);
           el.progBar.style.width = Math.min(100, (state.played / n) * 100) + "%";
         }
 
@@ -1035,11 +1244,11 @@
             }
             var avg = per.sum / state.played;
             var dev = avg - th;
+            var sign = dev > -0.5 ? "+" : "−";
             html +=
               "<tr><td>" + NAMES[s] + "</td><td>" + state.played + "</td><td>" + per.hits + " (" +
               Math.round((per.hits / state.played) * 100) + " %)</td><td>" + euro(avg) + "</td><td>" + euro(th) +
-              "</td><td>" + (dev >= 0 ? "+" : "−") + euro(Math.abs(dev)) + " (" +
-              (dev >= 0 ? "+" : "−") + (Math.abs(dev / th) * 100).toFixed(1).replace(".", ",") + " %)</td></tr>";
+              "</td><td>" + sign + euro(Math.abs(dev)) + " (" + sign + dec(Math.abs(dev / th) * 100, 1) + " %)</td></tr>";
           });
           el.stats.innerHTML = html;
         }
@@ -1051,10 +1260,11 @@
             if (st.active.indexOf(e.r.s) < 0) return;
             html +=
               "<tr><td>" + e.nr + "</td><td>" + NAMES[e.r.s] + "</td><td>" + NAMES[e.r.tip] + '</td><td class="' +
-              (e.r.right ? "hit" : "miss") + '">' + (e.r.right ? "ja" : "nein") + "</td><td>" +
-              (e.r.boxA > 0 ? euro(e.r.boxA) : "leer") + "</td><td>" + euro(e.r.gain) + "</td></tr>";
+              (e.r.right ? "hit" : "miss") + '">' + (e.r.right ? t("yes") : t("no")) + "</td><td>" +
+              boxText(e.r) + "</td><td>" + euro(e.r.gain) + "</td></tr>";
           });
-          el.log.innerHTML = html || '<tr><td colspan="6" style="text-align:left;color:var(--muted)">Noch kein Spiel gespielt.</td></tr>';
+          el.log.innerHTML =
+            html || '<tr><td colspan="6" style="text-align:left;color:var(--muted)">' + t("noGames") + "</td></tr>";
         }
 
         function renderLegend() {
@@ -1062,8 +1272,8 @@
           var html = "";
           st.active.forEach(function (s) {
             html +=
-              '<span><i style="border-color:' + COLORS[s] + '"></i>' + NAMES[s] + " (Simulation)</span>" +
-              '<span><i class="dash" style="border-color:' + COLORS[s] + '"></i>' + NAMES[s] + " Theorie: " +
+              '<span><i style="border-color:' + COLORS[s] + '"></i>' + NAMES[s] + " " + t("legendSim") + "</span>" +
+              '<span><i class="dash" style="border-color:' + COLORS[s] + '"></i>' + NAMES[s] + " " + t("legendTheory") + " " +
               euro(theory(s, st.p)) + "</span>";
           });
           el.legend.innerHTML = html;
@@ -1083,12 +1293,12 @@
           g.setTransform(dpr, 0, 0, dpr, 0, 0);
           g.clearRect(0, 0, W, H);
 
-          var L = 78, R = 16, T = 14, B = 52;
-          var pw = W - L - R, ph = H - T - B;
+          var L = 78, R = 16, T0 = 14, B = 52;
+          var pw = W - L - R, ph = H - T0 - B;
           var xmax = Math.max(st.n, state.played, 1);
           var ymax = 1100000;
           function X(i) { return L + (i / xmax) * pw; }
-          function Y(v) { return T + ph - (v / ymax) * ph; }
+          function Y(v) { return T0 + ph - (v / ymax) * ph; }
 
           g.font = "13px system-ui, sans-serif";
           g.textBaseline = "middle";
@@ -1101,7 +1311,7 @@
             g.stroke();
             g.fillStyle = "#aab4d0";
             g.textAlign = "right";
-            g.fillText(fmt.format(v), L - 8, Y(v));
+            g.fillText(num(v), L - 8, Y(v));
           });
           g.textAlign = "center";
           g.textBaseline = "top";
@@ -1110,7 +1320,7 @@
             g.fillStyle = "#aab4d0";
             g.fillText(String(xi), X(xi), H - B + 8);
           }
-          g.fillText("Anzahl Spiele", L + pw / 2, H - 20);
+          g.fillText(t("axis"), L + pw / 2, H - 20);
 
           st.active.forEach(function (s) {
             var col = COLORS[s];
@@ -1138,11 +1348,11 @@
         function renderTheory() {
           var st = settings();
           el.pTheory.innerHTML =
-            '<div class="tl">Erwartungswert bei p = ' + pText(st.p) + " (Theorie)</div>" +
+            '<div class="tl">' + t("theoryHead", pText(st.p)) + "</div>" +
             '<div class="trow2">' +
             st.active
               .map(function (s) {
-                return "<span>" + NAMES[s] + ': Ø <span class="tv">' + euro(theory(s, st.p)) + "</span></span>";
+                return "<span>" + NAMES[s] + ": " + t("avg") + ' <span class="tv">' + euro(theory(s, st.p)) + "</span></span>";
               })
               .join("") +
             "</div>";
@@ -1160,7 +1370,7 @@
 
         function updateButtons() {
           el.lever.disabled = busy;
-          el.leverTxt.textContent = auto ? "STOPP" : "ZIEHEN";
+          el.leverTxt.textContent = auto ? t("stop") : t("pull");
           el.atoggle.disabled = busy || auto;
         }
 
@@ -1171,9 +1381,12 @@
             return;
           }
           var parts = st.active.map(function (s) {
-            return NAMES[s] + ": Ø " + euro(state.per[s].sum / state.played) + " (Theorie " + euro(theory(s, st.p)) + ")";
+            return (
+              NAMES[s] + ": " + t("avg") + " " + euro(state.per[s].sum / state.played) +
+              " (" + t("partTheory") + " " + euro(theory(s, st.p)) + ")"
+            );
           });
-          var text = "<strong>Fertig nach " + st.n + " Spielen bei p = " + pText(st.p) + ".</strong><br>" + parts.join("<br>");
+          var text = t("finish", st.n, pText(st.p)) + "<br>" + parts.join("<br>");
           var res = "";
           if (st.active.length === 2) {
             var simWin = state.per[1].sum >= state.per[2].sum ? 1 : 2;
@@ -1181,23 +1394,58 @@
             var simAvg = Math.max(state.per[1].sum, state.per[2].sum) / state.played;
             var theoAvg = Math.max(theory(1, st.p), theory(2, st.p));
             res =
-              '<div class="res s' + simWin + '"><div class="rl">Dieser Durchlauf</div><div class="rv">' +
-              NAMES[simWin] + '</div><div class="rs">war besser (Ø ' + euro(simAvg) + ")</div></div>" +
-              '<div class="res s' + theoWin + '"><div class="rl">Theorie</div><div class="rv">' +
-              NAMES[theoWin] + '</div><div class="rs">ist besser (Ø ' + euro(theoAvg) + ")</div></div>";
+              '<div class="res s' + simWin + '"><div class="rl">' + t("resRun") + '</div><div class="rv">' +
+              NAMES[simWin] + '</div><div class="rs">' + t("resBetter") + " (" + t("avg") + " " + euro(simAvg) + ")</div></div>" +
+              '<div class="res s' + theoWin + '"><div class="rl">' + t("resTheory") + '</div><div class="rv">' +
+              NAMES[theoWin] + '</div><div class="rs">' + t("resIsBetter") + " (" + t("avg") + " " + euro(theoAvg) + ")</div></div>";
             if (simWin !== theoWin) {
-              text += "<br><span style=\"color:var(--muted)\">Der Durchlauf weicht hier von der Theorie ab. Das ist Zufall, besonders wenn p nahe bei 0,5 liegt und die Erwartungswerte fast gleich sind.</span>";
+              text += '<br><span style="color:var(--muted)">' + t("deviates") + "</span>";
             }
           } else {
             var s1 = st.active[0];
             res =
-              '<div class="res s' + s1 + '"><div class="rl">Durchschnitt</div><div class="rv">' +
-              euro(state.per[s1].sum / state.played) + '</div><div class="rs">' + NAMES[s1] + " (Simulation)</div></div>" +
-              '<div class="res s' + s1 + '"><div class="rl">Theorie</div><div class="rv">' +
-              euro(theory(s1, st.p)) + '</div><div class="rs">' + NAMES[s1] + " (Erwartungswert)</div></div>";
+              '<div class="res s' + s1 + '"><div class="rl">' + t("resAvg") + '</div><div class="rv">' +
+              euro(state.per[s1].sum / state.played) + '</div><div class="rs">' + NAMES[s1] + " " + t("resSimNote") + "</div></div>" +
+              '<div class="res s' + s1 + '"><div class="rl">' + t("resTheory") + '</div><div class="rv">' +
+              euro(theory(s1, st.p)) + '</div><div class="rs">' + NAMES[s1] + " " + t("resExpNote") + "</div></div>";
           }
           el.message.innerHTML = '<div class="msgtext">' + text + '</div><div class="msgres">' + res + "</div>";
           el.message.classList.add("show");
+        }
+
+        // ---------- Sprache ----------
+        function applyStatic() {
+          document.documentElement.lang = lang;
+          document.title = t("title");
+          Array.prototype.forEach.call(document.querySelectorAll("[data-i18n]"), function (e) {
+            e.innerHTML = t(e.getAttribute("data-i18n"));
+          });
+          Array.prototype.forEach.call(document.querySelectorAll("[data-i18n-title]"), function (e) {
+            e.setAttribute("title", t(e.getAttribute("data-i18n-title")));
+          });
+          Array.prototype.forEach.call(document.querySelectorAll(".langsw button"), function (b) {
+            b.setAttribute("aria-pressed", b.getAttribute("data-lang") === lang ? "true" : "false");
+          });
+        }
+
+        function applyLang(l, persist) {
+          lang = l === "en" ? "en" : "de";
+          if (persist) {
+            try {
+              localStorage.setItem(LANG_KEY, lang);
+            } catch (e) {}
+          }
+          applyStatic();
+          el.pVal.textContent = pText(parseFloat(el.p.value));
+          el.acap.textContent = autoMode ? t("autoOn") : t("autoOff");
+          el.note.textContent = noteKey ? t(noteKey) : "";
+          if (!busy) {
+            [1, 2].forEach(function (s) {
+              if (lastRes[s]) finalReels(lastRes[s]);
+            });
+          }
+          render();
+          finishMessage();
         }
 
         // ---------- Ablauf ----------
@@ -1280,14 +1528,15 @@
           updateButtons();
         }
 
-        function onReset(reason) {
+        function onReset(reasonKey) {
           runId += 1;
           busy = false;
           auto = false;
           state = newState();
           resetReels();
           el.message.classList.remove("show");
-          el.note.textContent = reason || "";
+          noteKey = reasonKey || "";
+          el.note.textContent = noteKey ? t(noteKey) : "";
           showRows();
           render();
         }
@@ -1307,7 +1556,7 @@
         el.atoggle.addEventListener("click", function () {
           autoMode = !autoMode;
           el.atoggle.setAttribute("aria-pressed", autoMode ? "true" : "false");
-          el.acap.textContent = autoMode ? "Auto an" : "Auto aus";
+          el.acap.textContent = autoMode ? t("autoOn") : t("autoOff");
         });
 
         el.n.addEventListener("input", function () {
@@ -1319,7 +1568,7 @@
         el.p.addEventListener("input", function () {
           el.pVal.textContent = pText(parseFloat(el.p.value));
           // Erwartungswert, Diagramm und Legende laufen live mit; alte Ergebnisse passen nicht mehr zu p
-          if (state.played > 0) onReset("p geändert: Die Ergebnisse wurden zurückgesetzt.");
+          if (state.played > 0) onReset("noteP");
           else render();
         });
         [1, 2].forEach(function (k) {
@@ -1329,19 +1578,36 @@
             // mindestens eine Strategie muss aktiv bleiben
             if (on && settings().active.length === 1) return;
             btn.setAttribute("aria-pressed", on ? "false" : "true");
-            if (state.played > 0) onReset("Strategie geändert: Die Ergebnisse wurden zurückgesetzt.");
+            if (state.played > 0) onReset("noteS");
             else {
               showRows();
               render();
             }
           });
         });
+        Array.prototype.forEach.call(document.querySelectorAll(".langsw button"), function (b) {
+          b.addEventListener("click", function () {
+            applyLang(b.getAttribute("data-lang"), true);
+          });
+        });
         window.addEventListener("resize", drawChart);
+        // Sprache von außen umschalten (Präsentation, anderer Tab)
+        window.setLang = function (l) {
+          applyLang(l, false);
+        };
+        window.addEventListener("storage", function (e) {
+          if (e.key === LANG_KEY && e.newValue) applyLang(e.newValue, false);
+        });
 
         buildRows();
         state = newState();
         showRows();
-        render();
+        var startLang = "de";
+        try {
+          var q = new URLSearchParams(location.search).get("lang");
+          startLang = q || localStorage.getItem(LANG_KEY) || "de";
+        } catch (e) {}
+        applyLang(startLang, false);
       })();
     </script>
   </body>
